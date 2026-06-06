@@ -2,42 +2,39 @@
 
 import { useState, useEffect } from "react";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
-import {
-  useRfq,
-  useOmniston,
-  type QuoteEvent,
-  SettlementMethod,
-} from "@ston-fi/omniston-sdk-react";
-import type { Quote } from "@ston-fi/omniston-sdk";
-import type { ApyRow } from "@/lib/apyData";
+import { useRfq, useOmniston } from "@ston-fi/omniston-sdk-react";
+import type { Quote, QuoteEvent, AssetId, ChainAddress } from "@ston-fi/omniston-sdk";
+import type { ApyRow, SwapConfig } from "@/lib/apyData";
 
 interface SwapModalProps {
   row: ApyRow;
   onClose: () => void;
 }
 
-// Token decimals on TON
-const DECIMALS: Record<string, number> = {
-  TON: 9,
-  USDT: 6,
-  USDC: 6,
-};
-
-// Omniston asset IDs for TON chain
-const TON_ASSET_ID = {
-  chain: { $case: "ton" as const, value: { kind: { $case: "native" as const, value: {} } } },
-};
-
-const JETTON_ASSET_ID = (address: string) => ({
-  chain: { $case: "ton" as const, value: { kind: { $case: "jetton" as const, value: address } } },
-});
-
-function getAssetId(symbol: string, contractAddress?: string) {
-  if (symbol === "TON") return TON_ASSET_ID;
-  return JETTON_ASSET_ID(contractAddress!);
+// Build Omniston AssetId from our SwapConfig asset
+function toAssetId(asset: SwapConfig["input"]): AssetId {
+  if (asset.chain === "ton") {
+    if (!asset.contractAddress) {
+      return { chain: { $case: "ton", value: { kind: { $case: "native", value: {} } } } };
+    }
+    return { chain: { $case: "ton", value: { kind: { $case: "jetton", value: asset.contractAddress } } } };
+  }
+  // EVM chains
+  const evmCase = asset.chain as "ethereum" | "base" | "bnb";
+  return {
+    chain: {
+      $case: evmCase,
+      value: { kind: { $case: "erc20", value: asset.contractAddress! } },
+    },
+  };
 }
 
-// Convert hex BoC string to base64 (TON Connect format)
+// Build ChainAddress from our asset + address string
+function toChainAddress(chain: SwapConfig["input"]["chain"], address: string): ChainAddress {
+  return { chain: { $case: chain, value: address } };
+}
+
+// Convert hex BoC → base64 (TON Connect payload format)
 function hexToBase64(hex: string): string {
   let binary = "";
   for (let i = 0; i < hex.length; i += 2) {
@@ -46,54 +43,65 @@ function hexToBase64(hex: string): string {
   return btoa(binary);
 }
 
+function toUnits(amount: string, decimals: number): string {
+  const [whole, frac = ""] = amount.split(".");
+  const fracPadded = frac.padEnd(decimals, "0").slice(0, decimals);
+  return (
+    BigInt(whole || "0") * BigInt(10 ** decimals) +
+    BigInt(fracPadded || "0")
+  ).toString();
+}
+
 function formatUnits(raw: string, decimals: number): string {
   const n = BigInt(raw);
   const factor = BigInt(10 ** decimals);
   const whole = n / factor;
-  const frac = n % factor;
-  const fracStr = frac.toString().padStart(decimals, "0").replace(/0+$/, "");
-  return fracStr ? `${whole}.${fracStr}` : `${whole}`;
-}
-
-function toUnits(amount: string, decimals: number): string {
-  const [whole, frac = ""] = amount.split(".");
-  const fracPadded = frac.padEnd(decimals, "0").slice(0, decimals);
-  return (BigInt(whole) * BigInt(10 ** decimals) + BigInt(fracPadded || "0")).toString();
+  const frac = (n % factor).toString().padStart(decimals, "0").replace(/0+$/, "");
+  return frac ? `${whole}.${frac}` : `${whole}`;
 }
 
 type Step = "idle" | "quoting" | "quoted" | "building" | "sending" | "done" | "error";
 
+const EVM_PLACEHOLDER: Record<string, string> = {
+  ethereum: "0xYourEthereumAddress",
+  base: "0xYourBaseAddress",
+  bnb: "0xYourBNBAddress",
+};
+
 export function SwapModal({ row, onClose }: SwapModalProps) {
+  const { swap } = row;
   const [amount, setAmount] = useState("10");
+  const [dstAddress, setDstAddress] = useState("");
   const [step, setStep] = useState<Step>("idle");
   const [quote, setQuote] = useState<Quote | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
-  const [txHash, setTxHash] = useState("");
+  const [txBoc, setTxBoc] = useState("");
 
   const [tonConnectUI] = useTonConnectUI();
-  const userAddress = useTonAddress();
+  const userTonAddress = useTonAddress();
   const omniston = useOmniston();
 
-  const isConnected = Boolean(userAddress);
+  const isConnected = Boolean(userTonAddress);
+  const isValidDst = !swap.crosschain || dstAddress.startsWith("0x");
 
-  // Build the RFQ request — enabled only while quoting
   const inputUnits = (() => {
-    try { return toUnits(amount || "0", DECIMALS[row.symbol] ?? 9); }
+    try { return toUnits(amount || "0", swap.input.decimals); }
     catch { return "0"; }
   })();
 
+  // Build the RFQ request with correct settlement method per swap type
   const rfqRequest = {
-    inputAsset: getAssetId(row.symbol, row.contractAddress),
-    outputAsset: TON_ASSET_ID, // swap any asset → TON (stake via Tonstakers)
+    inputAsset: toAssetId(swap.input),
+    outputAsset: toAssetId(swap.output),
     amount: { $case: "inputUnits" as const, value: inputUnits },
-    settlementParams: [
-      { params: { $case: "swap" as const, value: { maxPriceSlippagePips: 50000 } } },
-    ],
+    settlementParams: swap.crosschain
+      ? [{ params: { $case: "order" as const, value: {} } }]
+      : [{ params: { $case: "swap" as const, value: { maxPriceSlippagePips: 10_000, flexibleIntegratorFee: true } } }],
   };
 
   const rfq = useRfq(rfqRequest, { enabled: step === "quoting" });
 
-  // Watch for incoming quotes from the RFQ stream
+  // Watch RFQ stream for the first good quote
   useEffect(() => {
     if (step !== "quoting") return;
     const event = rfq.data as QuoteEvent | undefined;
@@ -103,65 +111,81 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
       setQuote(event.event.value);
       setStep("quoted");
     } else if (event.event.$case === "noQuote") {
-      setErrorMsg("No quote available for this pair right now. Try a smaller amount or check back later.");
+      setErrorMsg(
+        "No resolver responded to this quote. The pair may have low liquidity right now — try a smaller amount."
+      );
       setStep("error");
     }
   }, [rfq.data, step]);
 
-  async function handleGetQuote() {
-    if (!isConnected) {
-      tonConnectUI.openModal();
-      return;
-    }
+  function reset() {
+    setStep("idle");
     setQuote(null);
     setErrorMsg("");
+    setTxBoc("");
+  }
+
+  async function handleGetQuote() {
+    if (!isConnected) { tonConnectUI.openModal(); return; }
+    if (!isValidDst) return;
+    reset();
     setStep("quoting");
   }
 
   async function handleConfirmSwap() {
-    if (!quote || !userAddress) return;
+    if (!quote || !userTonAddress) return;
     setStep("building");
 
     try {
-      const tonTx = await omniston.tonBuildSwap({
-        quoteId: quote.quoteId,
-        transferSrcAddress: { chain: { $case: "ton", value: userAddress } },
-        useRecommendedSlippage: true,
-      });
+      let tonTx;
+
+      if (swap.crosschain) {
+        // ORDER settlement: create escrow position on TON, resolver fills on dst chain
+        tonTx = await omniston.tonBuildEscrowTransfer({
+          quoteId: quote.quoteId,
+          ownerSrcAddress: toChainAddress("ton", userTonAddress),
+          traderDstAddress: toChainAddress(swap.output.chain, dstAddress),
+        });
+      } else {
+        // SWAP settlement: intrachain atomic swap via Omniston router
+        tonTx = await omniston.tonBuildSwap({
+          quoteId: quote.quoteId,
+          transferSrcAddress: toChainAddress("ton", userTonAddress),
+          useRecommendedSlippage: true,
+        });
+      }
 
       setStep("sending");
 
-      const tcMessages = tonTx.messages.map((msg) => ({
+      const messages = tonTx.messages.map((msg) => ({
         address: msg.targetAddress,
         amount: msg.sendAmount,
         ...(msg.payload ? { payload: hexToBase64(msg.payload) } : {}),
-        ...(msg.jettonWalletStateInit ? { stateInit: hexToBase64(msg.jettonWalletStateInit) } : {}),
+        ...(msg.jettonWalletStateInit
+          ? { stateInit: hexToBase64(msg.jettonWalletStateInit) }
+          : {}),
       }));
 
       const result = await tonConnectUI.sendTransaction({
         validUntil: Math.floor(Date.now() / 1000) + 300,
-        messages: tcMessages,
+        messages,
       });
 
-      // result.boc is the signed BoC — extract hash for tonviewer link
-      const bocBytes = Uint8Array.from(atob(result.boc), (c) => c.charCodeAt(0));
-      const hashHex = Array.from(bocBytes.slice(0, 32))
-        .map((b) => b.toString(16).padStart(2, "0"))
-        .join("");
-      setTxHash(hashHex);
+      setTxBoc(result.boc);
       setStep("done");
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      setErrorMsg(msg.includes("User rejects") ? "Transaction cancelled." : msg);
+      setErrorMsg(
+        msg.toLowerCase().includes("reject") || msg.toLowerCase().includes("cancel")
+          ? "Transaction cancelled in wallet."
+          : msg
+      );
       setStep("error");
     }
   }
 
-  const decimals = DECIMALS[row.symbol] ?? 9;
-  const estimatedYield =
-    amount && !isNaN(Number(amount))
-      ? ((Number(amount) * row.bestApy) / 100).toFixed(2)
-      : "0.00";
+  const inDec = swap.input.decimals;
+  const outDec = swap.output.decimals;
 
   return (
     <div
@@ -170,7 +194,7 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
-        className="glass-card w-full max-w-md p-6 relative"
+        className="glass-card w-full max-w-md p-6 relative overflow-y-auto max-h-[90vh]"
         style={{ boxShadow: "0 0 60px rgba(0,152,234,0.14)" }}
       >
         <button
@@ -180,14 +204,14 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
           ×
         </button>
 
+        {/* Header */}
         <h2 className="text-lg font-semibold text-text-primary mb-1">
-          Swap to Best Yield
+          {swap.crosschain ? "Crosschain Swap" : "Swap via Omniston"}
         </h2>
         <p className="text-text-secondary text-sm mb-5">
-          Route{" "}
-          <span className="text-accent font-medium">{row.symbol}</span> → TON staking via{" "}
-          <span className="text-accent font-medium">Omniston RFQ</span> to earn{" "}
-          <span style={{ color: "#00C98D" }} className="font-medium">{row.bestApy}% APY</span>
+          {swap.crosschain
+            ? `Bridge ${swap.input.label} → ${swap.output.label} via Omniston ORDER settlement`
+            : `Swap ${swap.input.label} → ${swap.output.label} via Omniston SWAP`}
         </p>
 
         {/* From */}
@@ -198,51 +222,81 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         >
           <span className="text-xl">{row.icon}</span>
           <div className="flex-1">
-            <div className="text-text-secondary text-xs">Your wallet · {row.bestChain}</div>
-            <div className="text-text-primary font-medium">{row.symbol}</div>
+            <div className="text-text-secondary text-xs">{swap.input.chain.toUpperCase()}</div>
+            <div className="text-text-primary font-medium">{swap.input.label}</div>
           </div>
           <input
             type="number"
             value={amount}
-            onChange={(e) => { setAmount(e.target.value); setStep("idle"); setQuote(null); }}
+            onChange={(e) => { setAmount(e.target.value); reset(); }}
             disabled={step !== "idle" && step !== "error"}
             className="bg-transparent text-right text-text-primary font-medium w-24 outline-none disabled:opacity-60"
-            min="0"
-            step="0.1"
+            min="0" step="1"
           />
         </div>
 
-        <div className="flex justify-center my-2 text-text-secondary text-sm">↓</div>
-
-        {/* To */}
-        <label className="text-xs text-text-secondary mb-1.5 block">You receive (staked TON)</label>
-        <div
-          className="flex items-center gap-3 rounded-[14px] px-4 py-3 mb-5"
-          style={{ background: "rgba(0,201,141,0.06)", border: "1px solid rgba(0,201,141,0.2)" }}
-        >
-          <span className="text-xl">💎</span>
-          <div className="flex-1">
-            <div className="text-text-secondary text-xs">TON · Tonstakers</div>
-            <div className="text-text-primary font-medium">TON</div>
-          </div>
-          <div className="text-right">
-            {quote ? (
-              <>
-                <div style={{ color: "#00C98D" }} className="font-semibold">
-                  ~{formatUnits(quote.outputUnits, 9)}
-                </div>
-                <div className="text-text-secondary text-xs">TON out</div>
-              </>
-            ) : (
-              <>
-                <div style={{ color: "#00C98D" }} className="font-semibold">{row.bestApy}%</div>
-                <div className="text-text-secondary text-xs">APY</div>
-              </>
-            )}
-          </div>
+        <div className="flex justify-center items-center my-2 gap-2 text-text-secondary text-sm">
+          <span>↓</span>
+          {swap.crosschain && (
+            <span
+              className="text-xs px-2 py-0.5 rounded-full"
+              style={{ background: "rgba(0,152,234,0.12)", color: "#0098EA", border: "1px solid rgba(0,152,234,0.25)" }}
+            >
+              crosschain
+            </span>
+          )}
         </div>
 
-        {/* Quote details when available */}
+        {/* To */}
+        <label className="text-xs text-text-secondary mb-1.5 block">You receive</label>
+        <div
+          className="flex items-center gap-3 rounded-[14px] px-4 py-3 mb-4"
+          style={{ background: "rgba(0,201,141,0.06)", border: "1px solid rgba(0,201,141,0.2)" }}
+        >
+          <span className="text-xl">💵</span>
+          <div className="flex-1">
+            <div className="text-text-secondary text-xs">{swap.output.chain.toUpperCase()}</div>
+            <div className="text-text-primary font-medium">{swap.output.label}</div>
+          </div>
+          {quote ? (
+            <div className="text-right">
+              <div style={{ color: "#00C98D" }} className="font-semibold">
+                ~{formatUnits(quote.outputUnits, outDec)}
+              </div>
+              <div className="text-text-secondary text-xs">{row.symbol}</div>
+            </div>
+          ) : (
+            <div className="text-right text-text-secondary text-xs">awaiting quote</div>
+          )}
+        </div>
+
+        {/* EVM destination address (crosschain only) */}
+        {swap.crosschain && (
+          <div className="mb-4">
+            <label className="text-xs text-text-secondary mb-1.5 block">
+              Your {swap.output.chain} address (receives funds)
+            </label>
+            <input
+              type="text"
+              value={dstAddress}
+              onChange={(e) => setDstAddress(e.target.value.trim())}
+              disabled={step !== "idle" && step !== "error"}
+              placeholder={EVM_PLACEHOLDER[swap.output.chain]}
+              className="w-full rounded-[12px] px-4 py-2.5 text-sm text-text-primary outline-none disabled:opacity-60 font-mono"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: `1px solid ${dstAddress && !dstAddress.startsWith("0x") ? "rgba(255,80,80,0.4)" : "rgba(255,255,255,0.1)"}`,
+              }}
+            />
+            {dstAddress && !dstAddress.startsWith("0x") && (
+              <p className="text-xs mt-1" style={{ color: "#ff6b6b" }}>
+                Must be a valid 0x… EVM address
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Quote breakdown */}
         {quote && step === "quoted" && (
           <div
             className="rounded-[14px] px-4 py-3 mb-4 space-y-1.5 text-sm"
@@ -250,48 +304,44 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
           >
             <div className="flex justify-between">
               <span className="text-text-secondary">Input</span>
-              <span className="text-text-primary">{formatUnits(quote.inputUnits, decimals)} {row.symbol}</span>
+              <span className="text-text-primary">{formatUnits(quote.inputUnits, inDec)} {row.symbol}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-secondary">Output</span>
-              <span className="text-text-primary">{formatUnits(quote.outputUnits, 9)} TON</span>
+              <span className="text-text-primary">{formatUnits(quote.outputUnits, outDec)} {row.symbol}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-secondary">Resolver</span>
-              <span className="text-accent">{quote.resolverName || quote.resolverId.slice(0, 12) + "…"}</span>
+              <span className="text-accent">{quote.resolverName || quote.resolverId.slice(0, 14) + "…"}</span>
             </div>
             {quote.gasBudget && (
               <div className="flex justify-between">
-                <span className="text-text-secondary">Gas budget</span>
+                <span className="text-text-secondary">Gas (TON)</span>
                 <span className="text-text-primary">{formatUnits(quote.gasBudget, 9)} TON</span>
               </div>
             )}
             <div className="flex justify-between">
-              <span className="text-text-secondary">Route</span>
-              <span className="text-accent text-xs">Omniston RFQ ✓</span>
+              <span className="text-text-secondary">Settlement</span>
+              <span className="text-accent text-xs">
+                {swap.crosschain ? "Omniston ORDER (HTLC)" : "Omniston SWAP"} ✓
+              </span>
             </div>
           </div>
         )}
 
-        {/* Yearly yield estimate */}
-        {step === "idle" && amount && Number(amount) > 0 && (
-          <div
-            className="rounded-[14px] px-4 py-3 mb-4 flex justify-between items-center"
-            style={{ background: "rgba(0,152,234,0.06)", border: "1px solid rgba(0,152,234,0.15)" }}
-          >
-            <span className="text-text-secondary text-sm">Estimated yearly yield</span>
-            <span className="text-accent font-semibold">+{estimatedYield} {row.symbol}</span>
-          </div>
-        )}
-
-        {/* CTA area */}
+        {/* CTA */}
         {step === "idle" && (
           <button
             onClick={handleGetQuote}
-            className="w-full py-3.5 rounded-[14px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.98]"
+            disabled={swap.crosschain && !isValidDst}
+            className="w-full py-3.5 rounded-[14px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-40"
             style={{ background: "linear-gradient(135deg, #0098EA, #007bc4)" }}
           >
-            {isConnected ? "Get Quote via Omniston" : "Connect Wallet to Swap"}
+            {!isConnected
+              ? "Connect TON Wallet"
+              : swap.crosschain && !isValidDst
+              ? "Enter destination address"
+              : "Get Quote via Omniston"}
           </button>
         )}
 
@@ -307,8 +357,8 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         {step === "quoted" && (
           <div className="flex gap-3">
             <button
-              onClick={() => { setStep("idle"); setQuote(null); }}
-              className="flex-1 py-3.5 rounded-[14px] font-medium text-text-secondary transition-all hover:text-text-primary"
+              onClick={reset}
+              className="flex-1 py-3.5 rounded-[14px] font-medium text-text-secondary hover:text-text-primary transition-all"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
             >
               Refresh
@@ -329,7 +379,7 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
             style={{ background: "rgba(0,201,141,0.08)", border: "1px solid rgba(0,201,141,0.2)", color: "#00C98D" }}
           >
             <span className="animate-pulse">
-              {step === "building" ? "Building transaction…" : "Waiting for wallet confirmation…"}
+              {step === "building" ? "Building escrow transaction…" : "Waiting for wallet approval…"}
             </span>
           </div>
         )}
@@ -339,18 +389,15 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
             <div className="text-4xl mb-3">✅</div>
             <p className="text-text-primary font-semibold mb-1">Transaction submitted!</p>
             <p className="text-text-secondary text-sm mb-3">
-              {formatUnits(inputUnits, decimals)} {row.symbol} is now routing to earn {row.bestApy}% APY
+              Resolver will now fill your order on{" "}
+              <span className="text-text-primary">{swap.output.chain}</span>
             </p>
-            {txHash && (
-              <a
-                href={`https://tonviewer.com/transaction/${txHash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent text-sm underline hover:opacity-80"
-              >
-                View on Tonviewer →
-              </a>
+            {txBoc && (
+              <p className="text-text-secondary text-xs font-mono break-all mb-2">
+                BoC: {txBoc.slice(0, 32)}…
+              </p>
             )}
+            <p className="text-text-secondary text-xs">Check Tonviewer for the on-chain escrow tx</p>
           </div>
         )}
 
@@ -363,8 +410,8 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
               {errorMsg || "An unexpected error occurred."}
             </div>
             <button
-              onClick={() => { setStep("idle"); setQuote(null); setErrorMsg(""); }}
-              className="w-full py-3 rounded-[14px] font-medium text-text-secondary transition-all"
+              onClick={reset}
+              className="w-full py-3 rounded-[14px] font-medium text-text-secondary hover:text-text-primary transition-all"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
             >
               Try again
@@ -373,7 +420,9 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         )}
 
         <p className="text-center text-text-secondary text-xs mt-4">
-          Powered by <span className="text-accent">Omniston</span> crosschain SDK · v0.8.x
+          Powered by{" "}
+          <span className="text-accent">Omniston</span> ·{" "}
+          {swap.crosschain ? "HTLC ORDER settlement" : "atomic SWAP"}
         </p>
       </div>
     </div>

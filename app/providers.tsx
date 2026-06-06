@@ -4,7 +4,7 @@ import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import { OmnistonProvider, Omniston } from "@ston-fi/omniston-sdk-react";
 
 const omniston = new Omniston({
-  apiUrl: "wss://omni.ston.fi",
+  apiUrl: "wss://omni-ws.ston.fi",
 });
 
 const MANIFEST_URL =

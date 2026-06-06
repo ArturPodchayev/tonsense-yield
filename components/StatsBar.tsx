@@ -2,17 +2,15 @@
 
 const STATS = [
   { label: "Best TON APY", value: "5.2%", color: "#00C98D" },
-  { label: "Best USDT APY", value: "4.1%", color: "#0098EA" },
-  { label: "Best USDC APY", value: "4.0%", color: "#0098EA" },
+  { label: "Best USDT APY", value: "4.1% on TON", color: "#0098EA" },
+  { label: "Best USDC APY", value: "4.0% on TON", color: "#0098EA" },
   { label: "Chains tracked", value: "4", color: "#8B9CBF" },
-  { label: "Powered by", value: "Omniston", color: "#8B9CBF" },
+  { label: "Swap protocol", value: "Omniston", color: "#8B9CBF" },
 ];
 
 export function StatsBar() {
   return (
-    <div
-      className="glass-card px-6 py-4 flex flex-wrap gap-6 items-center"
-    >
+    <div className="glass-card px-6 py-4 flex flex-wrap gap-6 items-center">
       {STATS.map((stat, i) => (
         <div key={i} className="flex items-center gap-2">
           <span className="text-text-secondary text-sm">{stat.label}</span>
