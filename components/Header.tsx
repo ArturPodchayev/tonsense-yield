@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { TonConnectButton } from "@tonconnect/ui-react";
 
@@ -31,12 +32,13 @@ export function Header({ onOpenMira }: HeaderProps) {
       style={{ zIndex: 10 }}
     >
       <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-        <div
-          className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
-          style={{ background: "linear-gradient(135deg, #0098EA, #00C98D)" }}
-        >
-          T
-        </div>
+        <Image
+          src="/logo.png"
+          alt="TonSense logo"
+          width={36}
+          height={36}
+          className="rounded-full"
+        />
         <div>
           <span className="text-text-primary font-semibold text-lg tracking-tight">
             TonSense

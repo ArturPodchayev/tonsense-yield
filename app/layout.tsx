@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "TonSense Yield — Cross-chain yield comparator",
   description:
     "Find where your crypto earns the most. Swap in one click via Omniston.",
+  icons: { icon: "/logo.png", apple: "/logo.png" },
 };
 
 export default function RootLayout({
