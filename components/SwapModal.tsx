@@ -174,11 +174,29 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
 
   const rfq = useRfq(rfqRequest, { enabled: step === "quoting" });
 
+  // 15-second timeout — if still quoting, surface a readable error
+  useEffect(() => {
+    if (step !== "quoting") return;
+    const timer = setTimeout(() => {
+      // functional update avoids stale closure: only fires if still quoting
+      setStep((current) => {
+        if (current === "quoting") {
+          setErrorMsg(
+            "No quote received after 15 seconds. Resolvers may not support this pair right now — try a different amount."
+          );
+          return "error";
+        }
+        return current;
+      });
+    }, 15_000);
+    return () => clearTimeout(timer);
+  }, [step]);
+
   // Watch the RFQ observable stream — guard every field access
   useEffect(() => {
     if (step !== "quoting") return;
 
-    // rfq.error: WebSocket or parsing failure
+    // WebSocket or parsing failure
     if (rfq.isError) {
       setErrorMsg("Failed to connect to Omniston. Check your network and try again.");
       setStep("error");
