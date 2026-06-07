@@ -201,6 +201,10 @@ export default function AboutPage() {
             <span className="font-semibold text-text-primary">
               Artur Podchayev
             </span>{" "}
+            &amp;{" "}
+            <span className="font-semibold text-text-primary">
+              Muhammadjon Mirzotilloev
+            </span>{" "}
             during{" "}
             <span
               className="font-semibold"
