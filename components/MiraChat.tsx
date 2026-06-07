@@ -7,35 +7,98 @@ interface Message {
   text: string;
 }
 
-const ALLOWED_TOPICS = /yield|apy|defi|ton|eth|bnb|base|usdt|usdc|stake|swap|chain|crypto|earn|liquidity|pool|protocol|tonstakers|omniston|return|rate|risk|safe/i;
+const ALLOWED_TOPICS =
+  /yield|apy|defi|ton|eth|bnb|base|usdt|usdc|stake|swap|chain|crypto|earn|liquidity|pool|protocol|tonstakers|omniston|tonsense|tonsec|tonviewer|return|rate|risk|safe|crosschain|bridge|resolver|rfq|wallet|connect|balance|audit|security/i;
 
-const MIRA_RESPONSES: Record<string, string> = {
-  default:
-    "I can help with TON DeFi and yield strategy questions. Try asking why TON yields are high, or whether a crosschain swap is safe.",
-  "ton yield":
-    "TON currently offers ~5.2% APY via Tonstakers — one of the highest liquid staking rates in the ecosystem. This is driven by validator rewards + MEV + protocol incentives on a relatively young chain.",
-  "usdt":
-    "USDT on TON earns ~4.1% APY, beating Ethereum (~2.8%) and BNB Chain (~3.2%). The higher rate reflects lower liquidity competition and growing TVL demand on TON.",
-  "usdc":
-    "USDC earns ~4.0% on TON, ~3.6% on Base, and ~2.9% on Ethereum. TON's DeFi ecosystem is less saturated, so early liquidity providers capture better yields.",
-  "crosschain":
-    "Omniston RFQ routes your swap through audited solvers with transaction simulation before confirmation. The main risks are smart contract risk and bridge finality — always verify the destination chain and use small amounts first.",
-  "safe":
-    "Crosschain swaps via Omniston include pre-execution simulation. That said, always check: (1) is the protocol audited? (2) is TVL sufficient? (3) what's the bridge latency? For amounts >$1000, split into smaller batches.",
-  "why ton":
-    "TON yield is higher than ETH right now because: (1) validator APY is ~5% base, (2) the chain is growing fast with new protocols competing for liquidity, and (3) stETH on Ethereum compresses ETH yield toward ~3–4%.",
-};
+// Ordered from most specific to least — first match wins
+const MIRA_RESPONSES: [string, string][] = [
+  [
+    "how does swap work",
+    "TonSense uses Omniston RFQ — a WebSocket request-for-quote system. When you click Swap, professional resolvers compete to fill your order. The best quote appears in seconds, you confirm, TON Connect signs the transaction, and it's broadcast on-chain. Verified: 2 USDT → 1.205 TON on Tonviewer.",
+  ],
+  [
+    "swap work",
+    "TonSense uses Omniston RFQ — a WebSocket request-for-quote system. When you click Swap, professional resolvers compete to fill your order. The best quote appears in seconds, you confirm, TON Connect signs the transaction, and it's broadcast on-chain. Verified: 2 USDT → 1.205 TON on Tonviewer.",
+  ],
+  [
+    "best yield",
+    "Right now: TON earns 5.2% APY via Tonstakers (liquid staking, no lockup). USDT earns 4.1% on TON vs 2.8% on Ethereum. USDC earns 4.0% on TON vs 2.9% on Ethereum. TON chain leads across all three assets on TonSense Yield.",
+  ],
+  [
+    "tonsense",
+    "TonSense Yield is a cross-chain yield comparator live at tonsense-yield.vercel.app. It shows you where USDT, USDC, and TON earn the highest APY across TON, Ethereum, Base, and BNB — then lets you swap to the best rate in one click via Omniston.",
+  ],
+  [
+    "omniston",
+    "Omniston is STON.fi's decentralized swap protocol on TON. It uses RFQ (request-for-quote) where resolvers compete to fill your swap. Intrachain swaps use SWAP settlement (instant via STON.fi AMM). Crosschain swaps use ORDER settlement with HTLC escrow — atomic, no custodian, no bridge risk.",
+  ],
+  [
+    "tonstakers",
+    "Tonstakers is the leading liquid staking protocol on TON with $180M+ TVL. Stake TON, receive tsTON — a yield-bearing token that accrues 5.2% APY. No lockup, unstake anytime. Audited by CertiK and Quantstamp, zero exploits since launch in 2022.",
+  ],
+  [
+    "tonsec",
+    "TonSense shows a security rating for each protocol — Low, Medium, or High risk. Click the 🛡️ shield next to any asset to see the full report: audit history, key findings, and contract address. Ratings are powered by static analysis via Tonsec.",
+  ],
+  [
+    "audit",
+    "TonSense shows a security rating for each protocol — Low, Medium, or High risk. Click the 🛡️ shield next to any asset to see the full report: audit history, key findings, and contract address. Ratings are powered by static analysis via Tonsec.",
+  ],
+  [
+    "security",
+    "TonSense shows a security rating for each protocol — Low, Medium, or High risk. Click the 🛡️ shield next to any asset to see the full report: audit history, key findings, and contract address. Ratings are powered by static analysis via Tonsec.",
+  ],
+  [
+    "safe",
+    "TonSense Yield uses security audits powered by Tonsec. Tonstakers is Low risk (audited by CertiK & Quantstamp, 2+ years live, no exploits). STON.fi USDT swaps are Low risk (battle-tested AMM). USDC crosschain is Medium risk — bridge complexity adds surface area. Start with a small amount.",
+  ],
+  [
+    "risk",
+    "Each protocol on TonSense has a risk rating: Tonstakers = Low (audited, 2+ years live), STON.fi swap = Low (battle-tested), Omniston crosschain = Medium (bridge adds complexity). Click 🛡️ on any row for the full security breakdown.",
+  ],
+  [
+    "ton yield",
+    "TON currently offers ~5.2% APY via Tonstakers — the highest on TonSense Yield. This comes from validator rewards, MEV, and protocol incentives on a fast-growing chain with less liquidity competition than Ethereum.",
+  ],
+  [
+    "usdt",
+    "USDT on TON earns ~4.1% APY — the best across all 4 chains on TonSense Yield. Ethereum offers 2.8%, Base 3.5%, BNB 3.2%. Swap your USDT → native TON via Omniston to capture the yield difference in one click.",
+  ],
+  [
+    "usdc",
+    "USDC earns ~4.0% on TON, ~3.6% on Base, ~2.9% on Ethereum, ~3.1% on BNB. TON's DeFi ecosystem is less saturated, so early liquidity providers capture better yields. Crosschain swap via Omniston ORDER (HTLC) settlement.",
+  ],
+  [
+    "crosschain",
+    "Crosschain swaps use Omniston ORDER settlement — HTLC-based atomic swaps. Resolvers lock funds on both chains simultaneously, so there's no custodian. The supported crosschain pair on TonSense is USDC on TON → USDC on Base.",
+  ],
+  [
+    "why ton",
+    "TON yield beats Ethereum because: (1) validator APY is ~5% base, (2) growing ecosystem with protocols competing for liquidity, (3) stETH already compresses ETH yield to ~3–4%, (4) STON.fi and Tonstakers are in early growth — first movers get the best rates.",
+  ],
+  [
+    "default",
+    "I can help with TonSense Yield, TON DeFi, APY rates, swaps, staking, and protocol safety. Try one of the quick replies below, or ask me anything about yields!",
+  ],
+];
 
 function getMiraReply(input: string): string {
   const lower = input.toLowerCase();
   if (!ALLOWED_TOPICS.test(lower)) {
-    return "I'm focused on TON DeFi and yield topics. Ask me about APY rates, crosschain swaps, staking, or protocol safety.";
+    return "I'm focused on TonSense Yield and TON DeFi topics. Ask me about APY rates, how swaps work, protocol safety, or what Omniston is.";
   }
-  for (const [key, val] of Object.entries(MIRA_RESPONSES)) {
+  for (const [key, val] of MIRA_RESPONSES) {
     if (key !== "default" && lower.includes(key)) return val;
   }
-  return MIRA_RESPONSES.default;
+  return MIRA_RESPONSES[MIRA_RESPONSES.length - 1][1];
 }
+
+const QUICK_REPLIES = [
+  "Best yield right now?",
+  "How does swap work?",
+  "Is it safe?",
+  "What is Omniston?",
+];
 
 interface MiraChatProps {
   onClose: () => void;
@@ -45,7 +108,7 @@ export function MiraChat({ onClose }: MiraChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "ai",
-      text: "Hi! I'm Mira, your TON DeFi assistant. Ask me about yields, crosschain swaps, or protocol safety.",
+      text: "Hi! I'm Mira, the AI assistant for TonSense Yield. I know everything about the app, TON DeFi, Omniston swaps, and yield rates across chains. What would you like to know?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -56,15 +119,19 @@ export function MiraChat({ onClose }: MiraChatProps) {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  async function sendMessage() {
-    const text = input.trim();
-    if (!text) return;
+  async function sendText(text: string) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
     setInput("");
-    setMessages((m) => [...m, { role: "user", text }]);
+    setMessages((m) => [...m, { role: "user", text: trimmed }]);
     setTyping(true);
-    await new Promise((r) => setTimeout(r, 800 + Math.random() * 600));
+    await new Promise((r) => setTimeout(r, 700 + Math.random() * 500));
     setTyping(false);
-    setMessages((m) => [...m, { role: "ai", text: getMiraReply(text) }]);
+    setMessages((m) => [...m, { role: "ai", text: getMiraReply(trimmed) }]);
+  }
+
+  async function sendMessage() {
+    await sendText(input);
   }
 
   return (
@@ -72,7 +139,7 @@ export function MiraChat({ onClose }: MiraChatProps) {
       className="fixed bottom-6 right-6 z-40 flex flex-col glass-card overflow-hidden"
       style={{
         width: 360,
-        height: 500,
+        height: 520,
         boxShadow: "0 0 40px rgba(0,152,234,0.15)",
       }}
     >
@@ -90,12 +157,12 @@ export function MiraChat({ onClose }: MiraChatProps) {
           </div>
           <div>
             <div className="text-text-primary text-sm font-semibold">Mira AI</div>
-            <div className="text-green-yield text-xs flex items-center gap-1">
+            <div className="text-xs flex items-center gap-1" style={{ color: "#00E090" }}>
               <span
                 className="inline-block w-1.5 h-1.5 rounded-full"
-                style={{ background: "#00C98D" }}
+                style={{ background: "#00E090" }}
               />
-              TON DeFi expert
+              TonSense Yield assistant
             </div>
           </div>
         </div>
@@ -115,7 +182,7 @@ export function MiraChat({ onClose }: MiraChatProps) {
             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className="max-w-[85%] rounded-[14px] px-3 py-2 text-sm"
+              className="max-w-[85%] rounded-[14px] px-3 py-2 text-sm leading-relaxed"
               style={
                 msg.role === "user"
                   ? {
@@ -150,22 +217,16 @@ export function MiraChat({ onClose }: MiraChatProps) {
         <div ref={bottomRef} />
       </div>
 
-      {/* Suggestions */}
+      {/* Quick replies */}
       <div
         className="px-4 py-2 flex gap-2 overflow-x-auto"
         style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
       >
-        {[
-          "Why is TON yield high?",
-          "Is crosschain swap safe?",
-          "Best USDT yield?",
-        ].map((s) => (
+        {QUICK_REPLIES.map((s) => (
           <button
             key={s}
-            onClick={() => {
-              setInput(s);
-            }}
-            className="whitespace-nowrap text-xs px-2.5 py-1.5 rounded-full transition-colors hover:opacity-80"
+            onClick={() => sendText(s)}
+            className="whitespace-nowrap text-xs px-2.5 py-1.5 rounded-full transition-all hover:opacity-80 active:scale-95"
             style={{
               background: "rgba(0,152,234,0.1)",
               border: "1px solid rgba(0,152,234,0.2)",
@@ -187,17 +248,23 @@ export function MiraChat({ onClose }: MiraChatProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          placeholder="Ask about TON yields…"
+          placeholder="Ask about TonSense Yield…"
           className="flex-1 bg-transparent text-text-primary text-sm outline-none placeholder-text-secondary"
         />
         <button
           onClick={sendMessage}
-          disabled={!input.trim()}
+          disabled={!input.trim() || typing}
           className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:opacity-80 disabled:opacity-30"
           style={{ background: "#0098EA" }}
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M1 7h12M7 1l6 6-6 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M1 7h12M7 1l6 6-6 6"
+              stroke="white"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
       </div>
