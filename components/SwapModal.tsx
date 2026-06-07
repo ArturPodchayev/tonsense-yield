@@ -369,7 +369,7 @@ export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
-        className="glass-card w-full max-w-md p-6 relative overflow-y-auto max-h-[90vh]"
+        className="anim-modal glass-card w-full max-w-md p-6 relative overflow-y-auto max-h-[90vh]"
         style={{ boxShadow: "0 0 60px rgba(0,152,234,0.14)", zIndex: 10000 }}
       >
         <button
@@ -554,7 +554,7 @@ export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
           <button
             onClick={handleGetQuote}
             disabled={swap.crosschain && !isValidDst}
-            className="w-full py-3.5 rounded-[14px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-40"
+            className="btn-action w-full py-3.5 rounded-[14px] font-semibold text-white disabled:opacity-40"
             style={{ background: "linear-gradient(135deg, #0098EA, #007bc4)" }}
           >
             {!isConnected
@@ -591,7 +591,7 @@ export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
             </button>
             <button
               onClick={handleConfirmSwap}
-              className="flex-[2] py-3.5 rounded-[14px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.98]"
+              className="btn-action flex-[2] py-3.5 rounded-[14px] font-semibold text-white"
               style={{ background: "linear-gradient(135deg, #00C98D, #00a873)" }}
             >
               Confirm Swap

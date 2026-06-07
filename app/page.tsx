@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import { Header } from "@/components/Header";
 import { YieldTable } from "@/components/YieldTable";
 import { StatsBar } from "@/components/StatsBar";
@@ -36,7 +37,10 @@ export default function Home() {
 
           {/* Content */}
           <div className="relative" style={{ zIndex: 1 }}>
-            <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4 tracking-tight leading-tight">
+            <h1
+              className="anim-up text-4xl md:text-5xl font-bold text-text-primary mb-4 tracking-tight leading-tight"
+              style={{ "--delay": "0.1s" } as React.CSSProperties}
+            >
               Find where your crypto{" "}
               <span
                 style={{
@@ -48,7 +52,10 @@ export default function Home() {
                 earns the most
               </span>
             </h1>
-            <p className="text-text-secondary text-lg max-w-xl mx-auto leading-relaxed">
+            <p
+              className="anim-up text-text-secondary text-lg max-w-xl mx-auto leading-relaxed"
+              style={{ "--delay": "0.3s" } as React.CSSProperties}
+            >
               Cross-chain yield comparator built on Omniston. Swap to the best
               rate in one click.
             </p>
@@ -56,7 +63,9 @@ export default function Home() {
         </div>
 
         {/* Stats */}
-        <StatsBar />
+        <div className="anim-down" style={{ "--delay": "0.2s" } as React.CSSProperties}>
+          <StatsBar />
+        </div>
 
         {/* Yield Table */}
         <div id="yield-table">
@@ -86,11 +95,8 @@ export default function Home() {
       {!miraOpen && (
         <button
           onClick={() => setMiraOpen(true)}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg font-medium text-white transition-all hover:opacity-90 hover:scale-105 active:scale-95"
-          style={{
-            background: "linear-gradient(135deg, #0098EA, #00C98D)",
-            boxShadow: "0 0 24px rgba(0,152,234,0.35)",
-          }}
+          className="mira-pulse fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-3 rounded-full font-medium text-white hover:opacity-90 hover:scale-105 active:scale-95 transition-transform"
+          style={{ background: "linear-gradient(135deg, #0098EA, #00C98D)" }}
         >
           <span className="text-sm font-bold">M</span>
           <span className="text-sm">Ask Mira AI</span>

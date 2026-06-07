@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
+import { AnimatedSection } from "@/components/AnimatedSection";
 
 export const metadata: Metadata = {
   title: "About — TonSense Yield",
@@ -120,6 +121,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── The Problem ── */}
+        <AnimatedSection delay={0}>
         <section className="glass-card px-8 py-8">
           <p
             className="text-xs font-semibold uppercase tracking-widest mb-4"
@@ -136,8 +138,10 @@ export default function AboutPage() {
             We built TonSense Yield to solve that.
           </p>
         </section>
+        </AnimatedSection>
 
         {/* ── How it works ── */}
+        <AnimatedSection delay={0.05}>
         <section>
           <p
             className="text-xs font-semibold uppercase tracking-widest mb-5"
@@ -162,8 +166,10 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
+        </AnimatedSection>
 
         {/* ── Tech stack ── */}
+        <AnimatedSection delay={0.05}>
         <section className="glass-card px-8 py-7">
           <p
             className="text-xs font-semibold uppercase tracking-widest mb-5"
@@ -187,8 +193,10 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
+        </AnimatedSection>
 
         {/* ── Built by ── */}
+        <AnimatedSection delay={0.05}>
         <section className="glass-card px-8 py-7">
           <p
             className="text-xs font-semibold uppercase tracking-widest mb-4"
@@ -219,8 +227,10 @@ export default function AboutPage() {
             ecosystem — a suite of DeFi tools built for the TON blockchain.
           </p>
         </section>
+        </AnimatedSection>
 
         {/* ── Links ── */}
+        <AnimatedSection delay={0.05}>
         <section>
           <p
             className="text-xs font-semibold uppercase tracking-widest mb-5"
@@ -235,7 +245,7 @@ export default function AboutPage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-sm font-semibold transition-all hover:opacity-85 active:scale-[0.97]"
+                className="btn-action inline-flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-sm font-semibold hover:opacity-85"
                 style={{
                   background: link.bg,
                   border: `1px solid ${link.border}`,
@@ -249,6 +259,7 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
+        </AnimatedSection>
 
         {/* Footer */}
         <div

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import { APY_DATA, CHAIN_LABELS, type ApyRow, type ChainKey, type SwapConfig, type StakingInfo, type SecurityInfo } from "@/lib/apyData";
 import { SwapModal } from "./SwapModal";
 import { StakingModal } from "./StakingModal";
@@ -116,13 +117,11 @@ export function YieldTable() {
                 return (
                 <tr
                   key={row.symbol}
-                  className="yield-row group"
+                  className="yield-row anim-up group"
                   style={{
-                    borderBottom:
-                      i < APY_DATA.length - 1
-                        ? "1px solid rgba(255,255,255,0.04)"
-                        : "none",
-                  }}
+                    "--delay": `${0.35 + i * 0.08}s`,
+                    borderBottom: i < APY_DATA.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                  } as React.CSSProperties}
                 >
                   {/* Asset */}
                   <td className="px-6 py-4">
@@ -206,7 +205,7 @@ export function YieldTable() {
                       />
                       <button
                         onClick={() => openRow(row)}
-                        className="w-full py-2 rounded-[10px] text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97]"
+                        className="btn-action w-full py-2 rounded-[10px] text-sm font-semibold text-white"
                         style={{
                           background: "linear-gradient(135deg, #0098EA, #0070B8)",
                           boxShadow: "0 2px 12px rgba(0,152,234,0.3)",
@@ -307,7 +306,7 @@ export function YieldTable() {
                 />
                 <button
                   onClick={() => openRow(row)}
-                  className="flex-[2] py-2.5 rounded-[10px] text-sm font-medium text-white transition-all"
+                  className="btn-action flex-[2] py-2.5 rounded-[10px] text-sm font-medium text-white"
                   style={{ background: "linear-gradient(135deg, #0098EA, #0070B8)" }}
                 >
                   {row.stakingInfo ? "Stake TON" : "Swap to best yield"}

@@ -28,7 +28,8 @@ body {
   min-height: 100vh;
 }
 
-/* Glassmorphism card utility */
+/* ─── Glassmorphism ──────────────────────────────────────────────────────── */
+
 .glass-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(0, 152, 234, 0.2);
@@ -38,58 +39,96 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 152, 234, 0.06) inset;
 }
 
-/* Yield table row hover */
-.yield-row {
-  transition: background 0.15s ease;
-}
-.yield-row:hover {
-  background: rgba(0, 152, 234, 0.05);
+/* ─── Animations — keyframes ─────────────────────────────────────────────── */
+
+@keyframes anim-up-kf {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+@keyframes anim-down-kf {
+  from { opacity: 0; transform: translateY(-14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+@keyframes modal-enter-kf {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
+@keyframes mira-pulse-kf {
+  0%, 70%, 100% { box-shadow: 0 0 24px rgba(0,152,234,0.35); }
+  82%           { box-shadow: 0 0 44px rgba(0,152,234,0.7), 0 0 60px rgba(0,201,141,0.35); }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-/* Accent glow animation for best APY badge */
 @keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(0, 224, 144, 0.45), 0 0 20px rgba(0, 224, 144, 0.15);
-  }
-  50% {
-    box-shadow: 0 0 18px rgba(0, 224, 144, 0.75), 0 0 36px rgba(0, 224, 144, 0.3);
-  }
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 224, 144, 0.45), 0 0 20px rgba(0, 224, 144, 0.15); }
+  50%       { box-shadow: 0 0 18px rgba(0, 224, 144, 0.75), 0 0 36px rgba(0, 224, 144, 0.30); }
 }
 
+/* ─── Animation utility classes ─────────────────────────────────────────── */
+
+/* Fade + slide up — set --delay for stagger */
+.anim-up {
+  animation: anim-up-kf 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Fade + slide down (stats bar) */
+.anim-down {
+  animation: anim-down-kf 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Modal card entrance */
+.anim-modal {
+  animation: modal-enter-kf 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Mira floating button glow pulse */
+.mira-pulse {
+  animation: mira-pulse-kf 3s ease-in-out infinite;
+}
+
+/* Best APY badge glow */
 .best-badge {
   animation: pulse-glow 2.5s ease-in-out infinite;
 }
 
-/* Animated gradient orbs (global background) */
+/* ─── Button interaction ─────────────────────────────────────────────────── */
+
+.btn-action {
+  transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-action:hover  { transform: scale(1.03); }
+.btn-action:active { transform: scale(0.97); }
+
+/* ─── Yield table row ────────────────────────────────────────────────────── */
+
+.yield-row {
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.yield-row:hover {
+  background: rgba(0, 152, 234, 0.05);
+  box-shadow: inset 3px 0 0 rgba(0, 152, 234, 0.55);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+/* ─── Background & hero orbs ─────────────────────────────────────────────── */
+
 .bg-orb {
   position: fixed;
   border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Hero section orbs */
 @keyframes orb-float {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33%       { transform: translate(18px, -14px) scale(1.04); }
@@ -101,9 +140,5 @@ body {
   66%       { transform: translate(14px, -18px) scale(1.05); }
 }
 
-.hero-orb {
-  animation: orb-float 13s ease-in-out infinite;
-}
-.hero-orb-b {
-  animation: orb-float-reverse 17s ease-in-out infinite;
-}
+.hero-orb   { animation: orb-float         13s ease-in-out infinite; }
+.hero-orb-b { animation: orb-float-reverse 17s ease-in-out infinite; }
