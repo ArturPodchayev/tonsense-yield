@@ -20,7 +20,7 @@ export default function Home() {
             Find where your crypto{" "}
             <span
               style={{
-                background: "linear-gradient(90deg, #0098EA, #00C98D)",
+                background: "linear-gradient(90deg, #0098EA, #00D4AA)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}

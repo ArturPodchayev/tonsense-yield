@@ -36,10 +36,10 @@ function BestBadge({ chain, apy }: { chain: string; apy: number }) {
   return (
     <div className="flex items-center gap-1.5">
       <span
-        className="best-badge inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold"
+        className="best-badge inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
         style={{
-          background: "rgba(0,201,141,0.12)",
-          border: "1px solid rgba(0,201,141,0.35)",
+          background: "rgba(0,201,141,0.14)",
+          border: "1px solid rgba(0,201,141,0.4)",
           color: "#00C98D",
         }}
       >
@@ -192,17 +192,18 @@ export function YieldTable() {
                         min="0"
                         step="any"
                         onClick={(e) => e.stopPropagation()}
-                        className="w-24 text-right text-sm text-text-primary outline-none rounded-[8px] px-2 py-1.5"
+                        className="w-24 text-right text-sm text-text-primary outline-none rounded-[8px]"
                         style={{
-                          background: "rgba(255,255,255,0.04)",
-                          border: "1px solid rgba(255,255,255,0.1)",
+                          padding: "6px 10px",
+                          background: "#0d0d1a",
+                          border: "1px solid rgba(0,152,234,0.3)",
                         }}
                       />
                     <button
                       onClick={() => openRow(row)}
                       className="px-4 py-2 rounded-[10px] text-sm font-medium text-white transition-all hover:opacity-90 active:scale-[0.97]"
                       style={{
-                        background: "linear-gradient(135deg, #0098EA, #007bc4)",
+                        background: "linear-gradient(135deg, #0098EA, #0070B8)",
                       }}
                     >
                       {row.stakingInfo ? "Stake TON" : "Swap to best"}
@@ -279,16 +280,17 @@ export function YieldTable() {
                   placeholder="Amount"
                   min="0"
                   step="any"
-                  className="flex-1 text-sm text-text-primary outline-none rounded-[10px] px-3 py-2"
+                  className="flex-1 text-sm text-text-primary outline-none rounded-[10px]"
                   style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    padding: "6px 10px",
+                    background: "#0d0d1a",
+                    border: "1px solid rgba(0,152,234,0.3)",
                   }}
                 />
                 <button
                   onClick={() => openRow(row)}
                   className="flex-[2] py-2.5 rounded-[10px] text-sm font-medium text-white transition-all"
-                  style={{ background: "linear-gradient(135deg, #0098EA, #007bc4)" }}
+                  style={{ background: "linear-gradient(135deg, #0098EA, #0070B8)" }}
                 >
                   {row.stakingInfo ? "Stake TON" : "Swap to best yield"}
                 </button>

@@ -7,8 +7,8 @@
   --accent: #0098EA;
   --accent-hover: #007bc4;
   --green: #00C98D;
-  --surface: rgba(255, 255, 255, 0.05);
-  --surface-border: rgba(255, 255, 255, 0.08);
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-border: rgba(0, 152, 234, 0.15);
   --text-primary: #F0F4FF;
   --text-secondary: #8B9CBF;
 }
@@ -29,11 +29,12 @@ body {
 
 /* Glassmorphism card utility */
 .glass-card {
-  background: var(--surface);
+  background: rgba(13, 13, 26, 0.7);
   border: 1px solid var(--surface-border);
   border-radius: 18px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 0 0 1px rgba(0, 152, 234, 0.05) inset;
 }
 
 /* Scrollbar styling */
@@ -57,8 +58,12 @@ body {
 
 /* Accent glow animation for best APY */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(0, 201, 141, 0.3); }
-  50% { box-shadow: 0 0 18px rgba(0, 201, 141, 0.6); }
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(0, 201, 141, 0.4), 0 0 16px rgba(0, 201, 141, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(0, 201, 141, 0.7), 0 0 32px rgba(0, 201, 141, 0.25);
+  }
 }
 
 .best-badge {
@@ -69,8 +74,8 @@ body {
 .bg-orb {
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.12;
+  filter: blur(100px);
+  opacity: 0.15;
   pointer-events: none;
   z-index: 0;
 }
