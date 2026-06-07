@@ -12,13 +12,19 @@ export function StakingModal({ row, onClose }: StakingModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(8,8,16,0.95)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
+      style={{
+        position: "fixed", top: 0, left: 0,
+        width: "100vw", height: "100vh",
+        zIndex: 9999,
+        display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
+        background: "rgba(8,8,16,0.95)",
+        backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
+      }}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
         className="glass-card w-full max-w-md p-6 relative"
-        style={{ boxShadow: "0 0 60px rgba(0,152,234,0.14)" }}
+        style={{ boxShadow: "0 0 60px rgba(0,152,234,0.14)", zIndex: 10000 }}
       >
         <button
           onClick={onClose}
