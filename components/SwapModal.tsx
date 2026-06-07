@@ -309,6 +309,9 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
 
   const inDec = swap.input.decimals;
   const outDec = swap.output.decimals;
+  // Derive short tickers from the label ("TON (native)" → "TON", "USDT on Ethereum" → "USDT")
+  const inputSymbol = swap.input.label.split(" ")[0];
+  const outputSymbol = swap.output.label.split(" ")[0];
 
   return (
     <div
@@ -403,7 +406,7 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
               <div style={{ color: "#00C98D" }} className="font-semibold">
                 ~{formatUnits(safeOutputUnits(quote), outDec)}
               </div>
-              <div className="text-text-secondary text-xs">{row.symbol}</div>
+              <div className="text-text-secondary text-xs">{outputSymbol}</div>
             </div>
           ) : (
             <div className="text-right text-text-secondary text-xs">
@@ -454,13 +457,13 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
             <div className="flex justify-between">
               <span className="text-text-secondary">Input</span>
               <span className="text-text-primary">
-                {formatUnits(safeInputUnits(quote), inDec)} {row.symbol}
+                {formatUnits(safeInputUnits(quote), inDec)} {inputSymbol}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-secondary">Output</span>
               <span className="text-text-primary">
-                {formatUnits(safeOutputUnits(quote), outDec)} {row.symbol}
+                {formatUnits(safeOutputUnits(quote), outDec)} {outputSymbol}
               </span>
             </div>
             <div className="flex justify-between">

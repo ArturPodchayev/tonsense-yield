@@ -64,7 +64,7 @@ export const APY_DATA: ApyRow[] = [
     bnbApy: 3.2,
     bestChain: "TON",
     bestApy: 4.1,
-    // USDT on TON → USDT on Ethereum (real crosschain via Omniston ORDER)
+    // USDT on TON → TON native (intrachain SWAP via Omniston — verified working pair)
     swap: {
       input: {
         chain: "ton",
@@ -73,12 +73,12 @@ export const APY_DATA: ApyRow[] = [
         decimals: 6,
       },
       output: {
-        chain: "ethereum",
-        label: "USDT on Ethereum",
-        contractAddress: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        decimals: 6,
+        chain: "ton",
+        label: "TON (native)",
+        contractAddress: undefined,
+        decimals: 9,
       },
-      crosschain: true,
+      crosschain: false,
     },
   },
   {
