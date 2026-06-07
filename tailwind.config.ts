@@ -16,7 +16,7 @@ const config: Config = {
         "surface-border": "rgba(255,255,255,0.08)",
         "text-primary": "#F0F4FF",
         "text-secondary": "#8B9CBF",
-        "green-yield": "#00C98D",
+        "green-yield": "#00E090",
       },
       borderRadius: {
         card: "18px",

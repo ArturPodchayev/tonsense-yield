@@ -24,9 +24,8 @@ function ApyCell({ value, isBest }: { value: number | null; isBest: boolean }) {
   }
   return (
     <span
-      className={`font-semibold tabular-nums ${
-        isBest ? "text-green-yield" : "text-text-primary"
-      }`}
+      className="font-semibold tabular-nums"
+      style={{ color: isBest ? "#00E090" : "#F0F4FF" }}
     >
       {value.toFixed(1)}%
     </span>
@@ -39,14 +38,15 @@ function BestBadge({ chain, apy }: { chain: string; apy: number }) {
       <span
         className="best-badge inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
         style={{
-          background: "rgba(0,201,141,0.14)",
-          border: "1px solid rgba(0,201,141,0.4)",
-          color: "#00C98D",
+          background: "rgba(0,224,144,0.14)",
+          border: "1px solid rgba(0,224,144,0.45)",
+          color: "#00E090",
+          boxShadow: "0 0 12px rgba(0,224,144,0.35)",
         }}
       >
         <span
           className="w-1.5 h-1.5 rounded-full inline-block"
-          style={{ background: "#00C98D" }}
+          style={{ background: "#00E090" }}
         />
         {chain} · {apy.toFixed(1)}%
       </span>
@@ -90,14 +90,14 @@ export function YieldTable() {
               </p>
             </div>
             <div
-              className="text-xs px-2.5 py-1 rounded-full"
+              className="text-xs px-2.5 py-1 rounded-full font-medium"
               style={{
-                background: "rgba(0,152,234,0.1)",
-                border: "1px solid rgba(0,152,234,0.2)",
-                color: "#8B9CBF",
+                background: "rgba(255,170,0,0.1)",
+                border: "1px solid rgba(255,170,0,0.25)",
+                color: "#FFAA00",
               }}
             >
-              MVP · hardcoded rates
+              ⚠ MVP · hardcoded rates
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ export function YieldTable() {
                 return (
                 <tr
                   key={row.symbol}
-                  className="transition-colors hover:bg-white/[0.02] group"
+                  className="yield-row group"
                   style={{
                     borderBottom:
                       i < APY_DATA.length - 1
@@ -189,16 +189,16 @@ export function YieldTable() {
                     <div className="inline-flex flex-col items-center gap-1">
                       <BestBadge chain={row.bestChain} apy={row.bestApy} />
                       {yearly && (
-                        <span className="text-xs font-semibold" style={{ color: "#00C98D" }}>
+                        <span className="text-xs font-semibold" style={{ color: "#00E090" }}>
                           {yearly}
                         </span>
                       )}
                     </div>
                   </td>
 
-                  {/* Action: amount input + button */}
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex flex-col items-end gap-2">
+                  {/* Action: amount input + button stacked */}
+                  <td className="px-6 py-4">
+                    <div className="flex flex-col gap-2 w-[140px] ml-auto">
                       <input
                         type="number"
                         value={amounts[row.symbol] ?? ""}
@@ -207,22 +207,23 @@ export function YieldTable() {
                         min="0"
                         step="any"
                         onClick={(e) => e.stopPropagation()}
-                        className="w-24 text-right text-sm text-text-primary outline-none rounded-[8px]"
+                        className="w-full text-right text-sm text-text-primary outline-none rounded-[8px]"
                         style={{
                           padding: "6px 10px",
-                          background: "#0d0d1a",
+                          background: "rgba(8,8,22,0.9)",
                           border: "1px solid rgba(0,152,234,0.3)",
                         }}
                       />
-                    <button
-                      onClick={() => openRow(row)}
-                      className="px-4 py-2 rounded-[10px] text-sm font-medium text-white transition-all hover:opacity-90 active:scale-[0.97]"
-                      style={{
-                        background: "linear-gradient(135deg, #0098EA, #0070B8)",
-                      }}
-                    >
-                      {row.stakingInfo ? "Stake TON" : "Swap to best"}
-                    </button>
+                      <button
+                        onClick={() => openRow(row)}
+                        className="w-full py-2 rounded-[10px] text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97]"
+                        style={{
+                          background: "linear-gradient(135deg, #0098EA, #0070B8)",
+                          boxShadow: "0 2px 12px rgba(0,152,234,0.3)",
+                        }}
+                      >
+                        {row.stakingInfo ? "Stake TON" : "Swap to best"}
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -269,7 +270,7 @@ export function YieldTable() {
                 <div className="flex flex-col items-end gap-1">
                   <BestBadge chain={row.bestChain} apy={row.bestApy} />
                   {yearly && (
-                    <span className="text-xs font-semibold" style={{ color: "#00C98D" }}>
+                    <span className="text-xs font-semibold" style={{ color: "#00E090" }}>
                       {yearly}
                     </span>
                   )}

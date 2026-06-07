@@ -15,23 +15,44 @@ export default function Home() {
 
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-6">
         {/* Hero */}
-        <div className="text-center py-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-text-primary mb-3 tracking-tight">
-            Find where your crypto{" "}
-            <span
-              style={{
-                background: "linear-gradient(90deg, #0098EA, #00D4AA)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              earns the most
-            </span>
-          </h1>
-          <p className="text-text-secondary text-lg max-w-xl mx-auto">
-            Cross-chain yield comparator built on Omniston. Swap to the best
-            rate in one click.
-          </p>
+        <div className="relative text-center py-14 md:py-20 overflow-hidden rounded-2xl">
+          {/* Animated background orbs */}
+          <div
+            className="hero-orb absolute w-[420px] h-[420px] rounded-full pointer-events-none"
+            style={{
+              top: "-120px", left: "5%",
+              background: "radial-gradient(circle, #0098EA, transparent 70%)",
+              opacity: 0.12, filter: "blur(70px)",
+            }}
+          />
+          <div
+            className="hero-orb-b absolute w-[320px] h-[320px] rounded-full pointer-events-none"
+            style={{
+              bottom: "-100px", right: "8%",
+              background: "radial-gradient(circle, #00D4AA, transparent 70%)",
+              opacity: 0.12, filter: "blur(60px)",
+            }}
+          />
+
+          {/* Content */}
+          <div className="relative" style={{ zIndex: 1 }}>
+            <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-4 tracking-tight leading-tight">
+              Find where your crypto{" "}
+              <span
+                style={{
+                  background: "linear-gradient(90deg, #0098EA, #00D4AA)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                earns the most
+              </span>
+            </h1>
+            <p className="text-text-secondary text-lg max-w-xl mx-auto leading-relaxed">
+              Cross-chain yield comparator built on Omniston. Swap to the best
+              rate in one click.
+            </p>
+          </div>
         </div>
 
         {/* Stats */}
@@ -43,12 +64,22 @@ export default function Home() {
         </div>
 
         {/* Footer note */}
-        <p className="text-center text-text-secondary text-sm pb-4">
-          APY data sourced from{" "}
-          <span className="text-text-primary">Tonstakers</span> ·{" "}
-          <span className="text-text-primary">DeFiLlama</span> · Swaps via{" "}
-          <span className="text-accent">Omniston</span>
-        </p>
+        <div
+          className="text-center text-text-secondary text-sm py-8 mt-2"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+        >
+          <p className="mb-1">
+            APY data sourced from{" "}
+            <span className="text-text-primary font-medium">Tonstakers</span>
+            {" · "}
+            <span className="text-text-primary font-medium">DeFiLlama</span>
+            {" · "}
+            Swaps via <span className="text-accent font-medium">Omniston</span>
+          </p>
+          <p style={{ color: "rgba(139,156,191,0.55)", fontSize: "12px" }}>
+            Part of the TonSense ecosystem · Built for STON.fi Vibe Coding Hackathon Wave 2
+          </p>
+        </div>
       </main>
 
       {/* Mira AI floating button */}

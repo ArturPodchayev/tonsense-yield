@@ -6,9 +6,9 @@
   --bg: #080810;
   --accent: #0098EA;
   --accent-hover: #007bc4;
-  --green: #00C98D;
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-border: rgba(0, 152, 234, 0.15);
+  --green: #00E090;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-border: rgba(0, 152, 234, 0.2);
   --text-primary: #F0F4FF;
   --text-secondary: #8B9CBF;
 }
@@ -29,12 +29,20 @@ body {
 
 /* Glassmorphism card utility */
 .glass-card {
-  background: rgba(13, 13, 26, 0.7);
-  border: 1px solid var(--surface-border);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 152, 234, 0.2);
   border-radius: 18px;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 0 0 1px rgba(0, 152, 234, 0.05) inset;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 152, 234, 0.06) inset;
+}
+
+/* Yield table row hover */
+.yield-row {
+  transition: background 0.15s ease;
+}
+.yield-row:hover {
+  background: rgba(0, 152, 234, 0.05);
 }
 
 /* Scrollbar styling */
@@ -56,13 +64,13 @@ body {
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Accent glow animation for best APY */
+/* Accent glow animation for best APY badge */
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 8px rgba(0, 201, 141, 0.4), 0 0 16px rgba(0, 201, 141, 0.1);
+    box-shadow: 0 0 10px rgba(0, 224, 144, 0.45), 0 0 20px rgba(0, 224, 144, 0.15);
   }
   50% {
-    box-shadow: 0 0 16px rgba(0, 201, 141, 0.7), 0 0 32px rgba(0, 201, 141, 0.25);
+    box-shadow: 0 0 18px rgba(0, 224, 144, 0.75), 0 0 36px rgba(0, 224, 144, 0.3);
   }
 }
 
@@ -70,12 +78,31 @@ body {
   animation: pulse-glow 2.5s ease-in-out infinite;
 }
 
-/* Gradient background orbs */
+/* Animated gradient orbs (global background) */
 .bg-orb {
   position: fixed;
   border-radius: 50%;
   filter: blur(100px);
-  opacity: 0.15;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
+}
+
+/* Hero section orbs */
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(18px, -14px) scale(1.04); }
+  66%       { transform: translate(-10px, 18px) scale(0.97); }
+}
+@keyframes orb-float-reverse {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-16px, 12px) scale(0.96); }
+  66%       { transform: translate(14px, -18px) scale(1.05); }
+}
+
+.hero-orb {
+  animation: orb-float 13s ease-in-out infinite;
+}
+.hero-orb-b {
+  animation: orb-float-reverse 17s ease-in-out infinite;
 }
