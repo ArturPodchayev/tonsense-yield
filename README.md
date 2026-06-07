@@ -275,9 +275,13 @@ Part of the **TonSense** ecosystem — a suite of DeFi tools for the TON blockch
 
 ---
 
-## 📜 License
+## Built by
 
-MIT © [Artur Podchayev](https://github.com/ArturPodchayev)
+**Artur Podchaev** — developer
+- 🌐 [arturpodchaev.uz](https://arturpodchaev.uz)
+- 💼 [linkedin.com/in/arturpodchayev](https://linkedin.com/in/arturpodchayev)
+
+**greejjddg09** — QA & testing · [GitHub](https://github.com/greejjddg09)
 
 ---
 
