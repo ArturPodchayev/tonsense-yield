@@ -11,6 +11,7 @@ type SwapRow = ApyRow & { swap: SwapConfig };
 
 interface SwapModalProps {
   row: SwapRow;
+  initialAmount: string;
   onClose: () => void;
 }
 
@@ -132,14 +133,15 @@ const EVM_PLACEHOLDER: Record<string, string> = {
   bnb: "0xYourBNBAddress",
 };
 
-export function SwapModal({ row, onClose }: SwapModalProps) {
+export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
   const { swap } = row;
-  const [amount, setAmount] = useState("10");
+  const [amount, setAmount] = useState(initialAmount);
   const [dstAddress, setDstAddress] = useState("");
   const [step, setStep] = useState<Step>("idle");
   const [quote, setQuote] = useState<Quote | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [txBoc, setTxBoc] = useState("");
+  const [balance, setBalance] = useState<string | null>(null);
 
   const [tonConnectUI] = useTonConnectUI();
   const userTonAddress = useTonAddress();
@@ -231,6 +233,30 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
     }
   }, [rfq.data, rfq.isError, step]);
 
+  // Fetch wallet balance for the input asset via TON API
+  useEffect(() => {
+    if (!userTonAddress) { setBalance(null); return; }
+    let cancelled = false;
+    (async () => {
+      try {
+        let raw = "0";
+        if (!swap.input.contractAddress) {
+          const res = await fetch(`https://tonapi.io/v2/accounts/${userTonAddress}`);
+          const data = await res.json();
+          raw = String(data?.balance ?? "0");
+        } else {
+          const res = await fetch(
+            `https://tonapi.io/v2/accounts/${userTonAddress}/jettons/${swap.input.contractAddress}`
+          );
+          const data = await res.json();
+          raw = String(data?.balance ?? "0");
+        }
+        if (!cancelled) setBalance(raw);
+      } catch { /* balance is optional UX, fail silently */ }
+    })();
+    return () => { cancelled = true; };
+  }, [userTonAddress, swap.input.contractAddress]);
+
   function reset() {
     setStep("idle");
     setQuote(null);
@@ -313,6 +339,7 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
   // Derive short tickers from the label ("TON (native)" → "TON", "USDT on Ethereum" → "USDT")
   const inputSymbol = swap.input.label.split(" ")[0];
   const outputSymbol = swap.output.label.split(" ")[0];
+  const balanceDisplay = balance !== null ? formatUnits(balance, inDec) : null;
 
   return (
     <div
@@ -343,7 +370,7 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         {/* From */}
         <label className="text-xs text-text-secondary mb-1.5 block">You send</label>
         <div
-          className="flex items-center gap-3 rounded-[14px] px-4 py-3 mb-3"
+          className="flex items-center gap-3 rounded-[14px] px-4 py-3 mb-1.5"
           style={{
             background: "rgba(255,255,255,0.04)",
             border: "1px solid rgba(255,255,255,0.08)",
@@ -368,6 +395,19 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
             min="0"
             step="1"
           />
+        </div>
+        {/* Wallet balance */}
+        <div className="flex justify-between items-center mb-3 px-1">
+          <span className="text-xs text-text-secondary">
+            {isConnected ? "Wallet balance" : ""}
+          </span>
+          {isConnected && balanceDisplay !== null ? (
+            <span className="text-xs text-text-primary font-medium">
+              {balanceDisplay} {inputSymbol}
+            </span>
+          ) : isConnected ? (
+            <span className="text-xs text-text-secondary animate-pulse">loading…</span>
+          ) : null}
         </div>
 
         <div className="flex justify-center items-center my-2 gap-2 text-text-secondary text-sm">

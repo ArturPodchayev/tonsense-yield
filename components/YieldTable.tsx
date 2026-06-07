@@ -7,6 +7,16 @@ import { StakingModal } from "./StakingModal";
 
 const CHAINS: ChainKey[] = ["tonApy", "ethApy", "baseApy", "bnbApy"];
 
+function yearlyEst(amountStr: string, apy: number): string {
+  const n = parseFloat(amountStr || "0");
+  if (!(n > 0)) return "";
+  const earned = (n * apy) / 100;
+  if (earned < 0.01) return "";
+  if (earned < 1) return `+$${earned.toFixed(2)}/yr`;
+  if (earned < 1000) return `+$${Math.round(earned)}/yr`;
+  return `+$${(earned / 1000).toFixed(1)}k/yr`;
+}
+
 function ApyCell({ value, isBest }: { value: number | null; isBest: boolean }) {
   if (value === null) {
     return <span className="text-text-secondary">—</span>;
@@ -48,10 +58,17 @@ type StakingRow = ApyRow & { stakingInfo: StakingInfo };
 
 export function YieldTable() {
   const [swapRow, setSwapRow] = useState<SwapRow | null>(null);
+  const [swapInitialAmount, setSwapInitialAmount] = useState("10");
   const [stakingRow, setStakingRow] = useState<StakingRow | null>(null);
+  const [amounts, setAmounts] = useState<Record<string, string>>({});
+
+  function setAmount(symbol: string, value: string) {
+    setAmounts((prev) => ({ ...prev, [symbol]: value }));
+  }
 
   function openRow(row: ApyRow) {
-    if (row.swap) setSwapRow(row as SwapRow);
+    const amount = amounts[row.symbol] || "10";
+    if (row.swap) { setSwapRow(row as SwapRow); setSwapInitialAmount(amount); }
     else if (row.stakingInfo) setStakingRow(row as StakingRow);
   }
 
@@ -101,7 +118,9 @@ export function YieldTable() {
               </tr>
             </thead>
             <tbody>
-              {APY_DATA.map((row, i) => (
+              {APY_DATA.map((row, i) => {
+                const yearly = yearlyEst(amounts[row.symbol] ?? "", row.bestApy);
+                return (
                 <tr
                   key={row.symbol}
                   className="transition-colors hover:bg-white/[0.02] group"
@@ -150,13 +169,35 @@ export function YieldTable() {
                     );
                   })}
 
-                  {/* Best */}
+                  {/* Best + yearly estimate */}
                   <td className="px-4 py-4 text-center">
-                    <BestBadge chain={row.bestChain} apy={row.bestApy} />
+                    <div className="inline-flex flex-col items-center gap-1">
+                      <BestBadge chain={row.bestChain} apy={row.bestApy} />
+                      {yearly && (
+                        <span className="text-xs font-semibold" style={{ color: "#00C98D" }}>
+                          {yearly}
+                        </span>
+                      )}
+                    </div>
                   </td>
 
-                  {/* Action */}
+                  {/* Action: amount input + button */}
                   <td className="px-6 py-4 text-right">
+                    <div className="flex flex-col items-end gap-2">
+                      <input
+                        type="number"
+                        value={amounts[row.symbol] ?? ""}
+                        onChange={(e) => setAmount(row.symbol, e.target.value)}
+                        placeholder="Amount"
+                        min="0"
+                        step="any"
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-24 text-right text-sm text-text-primary outline-none rounded-[8px] px-2 py-1.5"
+                        style={{
+                          background: "rgba(255,255,255,0.04)",
+                          border: "1px solid rgba(255,255,255,0.1)",
+                        }}
+                      />
                     <button
                       onClick={() => openRow(row)}
                       className="px-4 py-2 rounded-[10px] text-sm font-medium text-white transition-all hover:opacity-90 active:scale-[0.97]"
@@ -166,16 +207,20 @@ export function YieldTable() {
                     >
                       {row.stakingInfo ? "Stake TON" : "Swap to best"}
                     </button>
+                    </div>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
 
         {/* Mobile cards */}
         <div className="md:hidden divide-y" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-          {APY_DATA.map((row) => (
+          {APY_DATA.map((row) => {
+            const yearly = yearlyEst(amounts[row.symbol] ?? "", row.bestApy);
+            return (
             <div key={row.symbol} className="px-4 py-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
@@ -193,7 +238,14 @@ export function YieldTable() {
                     <div className="text-text-secondary text-xs">{row.asset}</div>
                   </div>
                 </div>
-                <BestBadge chain={row.bestChain} apy={row.bestApy} />
+                <div className="flex flex-col items-end gap-1">
+                  <BestBadge chain={row.bestChain} apy={row.bestApy} />
+                  {yearly && (
+                    <span className="text-xs font-semibold" style={{ color: "#00C98D" }}>
+                      {yearly}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-4 gap-2 mb-3">
@@ -219,20 +271,36 @@ export function YieldTable() {
                 ))}
               </div>
 
-              <button
-                onClick={() => openRow(row)}
-                className="w-full py-2.5 rounded-[10px] text-sm font-medium text-white transition-all"
-                style={{ background: "linear-gradient(135deg, #0098EA, #007bc4)" }}
-              >
-                {row.stakingInfo ? "Stake TON" : "Swap to best yield"}
-              </button>
+              <div className="flex gap-2 mb-2.5">
+                <input
+                  type="number"
+                  value={amounts[row.symbol] ?? ""}
+                  onChange={(e) => setAmount(row.symbol, e.target.value)}
+                  placeholder="Amount"
+                  min="0"
+                  step="any"
+                  className="flex-1 text-sm text-text-primary outline-none rounded-[10px] px-3 py-2"
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                  }}
+                />
+                <button
+                  onClick={() => openRow(row)}
+                  className="flex-[2] py-2.5 rounded-[10px] text-sm font-medium text-white transition-all"
+                  style={{ background: "linear-gradient(135deg, #0098EA, #007bc4)" }}
+                >
+                  {row.stakingInfo ? "Stake TON" : "Swap to best yield"}
+                </button>
+              </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
       {swapRow && (
-        <SwapModal row={swapRow} onClose={() => setSwapRow(null)} />
+        <SwapModal row={swapRow} initialAmount={swapInitialAmount} onClose={() => setSwapRow(null)} />
       )}
       {stakingRow && (
         <StakingModal row={stakingRow} onClose={() => setStakingRow(null)} />
