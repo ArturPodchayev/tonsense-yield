@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { AnimatedSection } from "@/components/AnimatedSection";
 
@@ -71,6 +72,23 @@ export default function AboutPage() {
       <Header />
 
       <main className="max-w-3xl mx-auto px-4 py-12 space-y-8">
+
+        {/* ── Back button ── */}
+        <div>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-75 active:opacity-60"
+            style={{
+              color: "#8B9CBF",
+              padding: "8px 14px",
+              borderRadius: "10px",
+              border: "1px solid rgba(255,255,255,0.08)",
+              background: "rgba(255,255,255,0.03)",
+            }}
+          >
+            ← Back to App
+          </Link>
+        </div>
 
         {/* ── Hero ── */}
         <section className="relative text-center py-14 md:py-20 overflow-hidden rounded-2xl">
