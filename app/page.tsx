@@ -1,17 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type React from "react";
 import { Header } from "@/components/Header";
 import { YieldTable } from "@/components/YieldTable";
 import { StatsBar } from "@/components/StatsBar";
 import { MiraChat } from "@/components/MiraChat";
+import { SplashScreen } from "@/components/SplashScreen";
 
 export default function Home() {
   const [miraOpen, setMiraOpen] = useState(false);
+  const [showSplash, setShowSplash] = useState(false);
+  const [contentKey, setContentKey] = useState(0);
+
+  useEffect(() => {
+    if (!sessionStorage.getItem("tsy_onboarded")) {
+      setShowSplash(true);
+    }
+  }, []);
+
+  function handleSplashDismiss() {
+    setShowSplash(false);
+    setContentKey((k) => k + 1);
+  }
 
   return (
-    <div className="relative min-h-screen">
+    <>
+      {showSplash && <SplashScreen onDismiss={handleSplashDismiss} />}
+      <div key={contentKey} className="relative min-h-screen">
       <Header onOpenMira={() => setMiraOpen(true)} />
 
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-6">
@@ -106,5 +122,6 @@ export default function Home() {
       {/* Mira Chat Sidebar */}
       {miraOpen && <MiraChat onClose={() => setMiraOpen(false)} />}
     </div>
+    </>
   );
 }
