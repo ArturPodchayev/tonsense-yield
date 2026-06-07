@@ -89,16 +89,6 @@ export function YieldTable() {
                 Earn the most with your crypto across TON, Ethereum, Base & BNB
               </p>
             </div>
-            <div
-              className="text-xs px-2.5 py-1 rounded-full font-medium"
-              style={{
-                background: "rgba(255,170,0,0.1)",
-                border: "1px solid rgba(255,170,0,0.25)",
-                color: "#FFAA00",
-              }}
-            >
-              ⚠ MVP · hardcoded rates
-            </div>
           </div>
         </div>
 

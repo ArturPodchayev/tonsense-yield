@@ -20,21 +20,25 @@ export default function RootLayout({
         <div
           className="bg-orb"
           style={{
-            width: 600,
-            height: 600,
-            top: -200,
-            left: -150,
-            background: "#0098EA",
+            width: 800,
+            height: 800,
+            top: -300,
+            left: -250,
+            background: "radial-gradient(circle, #0098EA, transparent 70%)",
+            opacity: 0.08,
+            filter: "blur(120px)",
           }}
         />
         <div
           className="bg-orb"
           style={{
-            width: 400,
-            height: 400,
-            bottom: -100,
-            right: -100,
-            background: "#00C98D",
+            width: 600,
+            height: 600,
+            bottom: -200,
+            right: -180,
+            background: "radial-gradient(circle, #00D4AA, transparent 70%)",
+            opacity: 0.06,
+            filter: "blur(120px)",
           }}
         />
         <Providers>{children}</Providers>
