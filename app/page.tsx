@@ -10,7 +10,7 @@ export default function Home() {
   const [miraOpen, setMiraOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen z-10">
+    <div className="relative min-h-screen">
       <Header />
 
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-6">

@@ -4,7 +4,7 @@ import { TonConnectButton } from "@tonconnect/ui-react";
 
 export function Header() {
   return (
-    <header className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-white/5">
+    <header className="relative flex items-center justify-between px-6 py-4 border-b border-white/5" style={{ zIndex: 10 }}>
       <div className="flex items-center gap-3">
         <div
           className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
