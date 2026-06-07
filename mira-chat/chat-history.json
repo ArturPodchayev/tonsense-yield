@@ -1,0 +1,1855 @@
+{
+ "name": "Mira",
+ "type": "bot_chat",
+ "id": 8377231659,
+ "messages": [
+  {
+   "id": 49860,
+   "type": "message",
+   "date": "2026-06-05T18:11:15",
+   "date_unixtime": "1780665075",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": [
+    {
+     "type": "bot_command",
+     "text": "/start"
+    }
+   ],
+   "text_entities": [
+    {
+     "type": "bot_command",
+     "text": "/start"
+    }
+   ]
+  },
+  {
+   "id": 49861,
+   "type": "message",
+   "date": "2026-06-05T18:11:15",
+   "date_unixtime": "1780665075",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": [
+    "Hey! I'm Mira — your personal AI agent.\n\n",
+    {
+     "type": "bold",
+     "text": "Tell me what's on your mind, or just give me a task.\nFeel free to send a voice message!"
+    },
+    ""
+   ],
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Hey! I'm Mira — your personal AI agent.\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Tell me what's on your mind, or just give me a task.\nFeel free to send a voice message!"
+    },
+    {
+     "type": "plain",
+     "text": ""
+    }
+   ],
+   "inline_bot_buttons": [
+    [
+     {
+      "type": "callback",
+      "text": "What can you do?",
+      "dataBase64": "b25ib2FyZGluZzp3aGF0X2Nhbl95b3VfZG8",
+      "data": ""
+     }
+    ]
+   ]
+  },
+  {
+   "id": 49862,
+   "type": "message",
+   "date": "2026-06-05T18:11:15",
+   "date_unixtime": "1780665075",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": "You can also make me truly yours.\nWant to set my personality, or shall we get to work? ✨",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "You can also make me truly yours.\nWant to set my personality, or shall we get to work? ✨"
+    }
+   ]
+  },
+  {
+   "id": 49863,
+   "type": "message",
+   "date": "2026-06-05T18:11:22",
+   "date_unixtime": "1780665082",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": [
+    {
+     "type": "bot_command",
+     "text": "/start"
+    }
+   ],
+   "text_entities": [
+    {
+     "type": "bot_command",
+     "text": "/start"
+    }
+   ]
+  },
+  {
+   "id": 49864,
+   "type": "message",
+   "date": "2026-06-05T18:11:26",
+   "date_unixtime": "1780665086",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": "Hey there! 👋\n\nFresh start — what can I help you with?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Hey there! 👋\n\nFresh start — what can I help you with?"
+    }
+   ]
+  },
+  {
+   "id": 49865,
+   "type": "message",
+   "date": "2026-06-05T18:11:43",
+   "date_unixtime": "1780665103",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": [
+    {
+     "type": "bot_command",
+     "text": "/promo"
+    },
+    " MIRAFAM26"
+   ],
+   "text_entities": [
+    {
+     "type": "bot_command",
+     "text": "/promo"
+    },
+    {
+     "type": "plain",
+     "text": " MIRAFAM26"
+    }
+   ]
+  },
+  {
+   "id": 49866,
+   "type": "message",
+   "date": "2026-06-05T18:11:43",
+   "date_unixtime": "1780665103",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": "🎉 Promo code activated!\nMira Pro is active until July 5, 2026.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "🎉 Promo code activated!\nMira Pro is active until July 5, 2026."
+    }
+   ],
+   "inline_bot_buttons": [
+    [
+     {
+      "type": "url",
+      "text": "Open Mira",
+      "data": "https://t.me/mira/home"
+     }
+    ]
+   ]
+  },
+  {
+   "id": 49867,
+   "type": "message",
+   "date": "2026-06-05T18:11:44",
+   "date_unixtime": "1780665104",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": [
+    "+50 tokens\nCurrent balance: 50 ",
+    {
+     "type": "custom_emoji",
+     "text": "🪙",
+     "document_id": "stickers/AnimatedSticker.tgs"
+    },
+    ""
+   ],
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "+50 tokens\nCurrent balance: 50 "
+    },
+    {
+     "type": "custom_emoji",
+     "text": "🪙",
+     "document_id": "stickers/AnimatedSticker.tgs"
+    },
+    {
+     "type": "plain",
+     "text": ""
+    }
+   ],
+   "inline_bot_buttons": [
+    [
+     {
+      "type": "url",
+      "text": "Open Mira",
+      "data": "https://t.me/mira/home"
+     }
+    ]
+   ]
+  },
+  {
+   "id": 49868,
+   "type": "message",
+   "date": "2026-06-05T18:12:31",
+   "date_unixtime": "1780665151",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": "hi! u will help me with hackathon which was organized by ston fi!",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "hi! u will help me with hackathon which was organized by ston fi!"
+    }
+   ]
+  },
+  {
+   "id": 49869,
+   "type": "message",
+   "date": "2026-06-05T18:12:59",
+   "date_unixtime": "1780665179",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": [
+    "Hey! Nice, ",
+    {
+     "type": "link",
+     "text": "STON.fi"
+    },
+    " hackathon — that sounds exciting! 🏆\n\nI'm ready to help. What do you need? Here's what I can do:\n\n• ",
+    {
+     "type": "bold",
+     "text": "Research"
+    },
+    " — dig into ",
+    {
+     "type": "link",
+     "text": "STON.fi"
+    },
+    " docs, API, TON blockchain details\n• ",
+    {
+     "type": "bold",
+     "text": "Brainstorm"
+    },
+    " — project ideas, architecture, features\n• ",
+    {
+     "type": "bold",
+     "text": "Code"
+    },
+    " — help write smart contracts, frontend, backend, integrations\n• ",
+    {
+     "type": "bold",
+     "text": "Design"
+    },
+    " — mockups, presentations, pitch materials\n• ",
+    {
+     "type": "bold",
+     "text": "Organize"
+    },
+    " — track tasks, set reminders for deadlines\n\nWhat's the plan — are you starting from scratch or already have an idea?"
+   ],
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Hey! Nice, "
+    },
+    {
+     "type": "link",
+     "text": "STON.fi"
+    },
+    {
+     "type": "plain",
+     "text": " hackathon — that sounds exciting! 🏆\n\nI'm ready to help. What do you need? Here's what I can do:\n\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Research"
+    },
+    {
+     "type": "plain",
+     "text": " — dig into "
+    },
+    {
+     "type": "link",
+     "text": "STON.fi"
+    },
+    {
+     "type": "plain",
+     "text": " docs, API, TON blockchain details\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Brainstorm"
+    },
+    {
+     "type": "plain",
+     "text": " — project ideas, architecture, features\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Code"
+    },
+    {
+     "type": "plain",
+     "text": " — help write smart contracts, frontend, backend, integrations\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Design"
+    },
+    {
+     "type": "plain",
+     "text": " — mockups, presentations, pitch materials\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Organize"
+    },
+    {
+     "type": "plain",
+     "text": " — track tasks, set reminders for deadlines\n\nWhat's the plan — are you starting from scratch or already have an idea?"
+    }
+   ]
+  },
+  {
+   "id": 49875,
+   "type": "message",
+   "date": "2026-06-05T19:11:36",
+   "date_unixtime": "1780668696",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": "I'd love to write to you tomorrow 🔔\nI can remind you to take pills, send you BTC rate, nudge to drink water, or ask how your day went in the evening.\n\nSelect a reminder in the app or just send me a voice 🎙",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "I'd love to write to you tomorrow 🔔\nI can remind you to take pills, send you BTC rate, nudge to drink water, or ask how your day went in the evening.\n\nSelect a reminder in the app or just send me a voice 🎙"
+    }
+   ],
+   "inline_bot_buttons": [
+    [
+     {
+      "type": "url",
+      "text": "Select a reminder",
+      "data": "https://t.me/mira/home?startapp=eyJraW5kIjoiZ290byIsInZpZXciOiJkYWlseS1wdXNoIiwidXRtIjp7InNvdXJjZSI6InB1c2hfbWlyYV9kYWlseSJ9fQ"
+     }
+    ]
+   ]
+  },
+  {
+   "id": 50004,
+   "type": "message",
+   "date": "2026-06-05T23:11:39",
+   "date_unixtime": "1780683099",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": "Subscribe to the channel and get free photo and video generations 🚀",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Subscribe to the channel and get free photo and video generations 🚀"
+    }
+   ],
+   "inline_bot_buttons": [
+    [
+     {
+      "type": "url",
+      "text": "Get free video 🚀",
+      "data": "https://t.me/mira/home?startapp=eyJraW5kIjoiZ290byIsInZpZXciOiJiYWxhbmNlIiwidXRtIjp7InNvdXJjZSI6InB1c2hfdGFza3MifX0"
+     }
+    ]
+   ]
+  },
+  {
+   "id": 50045,
+   "type": "message",
+   "date": "2026-06-06T16:01:49",
+   "date_unixtime": "1780743709",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": [
+    "Good morning! ☀️ Hope you're feeling ready to make progress today. The hackathon is a great chance to showcase your skills.\n\nLet's set a reminder to review your project milestones tomorrow. It’ll help keep everything on track.  \n",
+    {
+     "type": "code",
+     "text": "Set a reminder to review hackathon project milestones at 9 AM tomorrow"
+    },
+    "\n\n",
+    {
+     "type": "text_link",
+     "text": "Add Mira to your group chats",
+     "href": "https://t.me/mira?startgroup=1&admin=invite_users+manage_topics"
+    },
+    {
+     "type": "italic",
+     "text": " — fun with friends, helpful at work."
+    },
+    ""
+   ],
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Good morning! ☀️ Hope you're feeling ready to make progress today. The hackathon is a great chance to showcase your skills.\n\nLet's set a reminder to review your project milestones tomorrow. It’ll help keep everything on track.  \n"
+    },
+    {
+     "type": "code",
+     "text": "Set a reminder to review hackathon project milestones at 9 AM tomorrow"
+    },
+    {
+     "type": "plain",
+     "text": "\n\n"
+    },
+    {
+     "type": "text_link",
+     "text": "Add Mira to your group chats",
+     "href": "https://t.me/mira?startgroup=1&admin=invite_users+manage_topics"
+    },
+    {
+     "type": "italic",
+     "text": " — fun with friends, helpful at work."
+    },
+    {
+     "type": "plain",
+     "text": ""
+    }
+   ],
+   "inline_bot_buttons": [
+    [
+     {
+      "type": "url",
+      "text": "What should Mira send you daily?",
+      "data": "https://t.me/mira/home?startapp=eyJraW5kIjoiZ290byIsInZpZXciOiJkYWlseS1wdXNoIn0="
+     }
+    ]
+   ]
+  },
+  {
+   "id": 50091,
+   "type": "message",
+   "date": "2026-06-07T16:03:24",
+   "date_unixtime": "1780830204",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": [
+    "Good afternoon! 🌟 Your focus today can make a real difference. Small steps now lead to big results later.\n\nConsider scheduling a quick check-in with your team to align on tasks. It keeps everyone moving forward smoothly.  \n",
+    {
+     "type": "code",
+     "text": "Create a calendar event for team check-in at 2 PM today"
+    },
+    "\n\n",
+    {
+     "type": "text_link",
+     "text": "Add Mira to your group chats",
+     "href": "https://t.me/mira?startgroup=1&admin=invite_users+manage_topics"
+    },
+    {
+     "type": "italic",
+     "text": " — fun with friends, helpful at work."
+    },
+    ""
+   ],
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Good afternoon! 🌟 Your focus today can make a real difference. Small steps now lead to big results later.\n\nConsider scheduling a quick check-in with your team to align on tasks. It keeps everyone moving forward smoothly.  \n"
+    },
+    {
+     "type": "code",
+     "text": "Create a calendar event for team check-in at 2 PM today"
+    },
+    {
+     "type": "plain",
+     "text": "\n\n"
+    },
+    {
+     "type": "text_link",
+     "text": "Add Mira to your group chats",
+     "href": "https://t.me/mira?startgroup=1&admin=invite_users+manage_topics"
+    },
+    {
+     "type": "italic",
+     "text": " — fun with friends, helpful at work."
+    },
+    {
+     "type": "plain",
+     "text": ""
+    }
+   ],
+   "inline_bot_buttons": [
+    [
+     {
+      "type": "url",
+      "text": "What should Mira send you daily?",
+      "data": "https://t.me/mira/home?startapp=eyJraW5kIjoiZ290byIsInZpZXciOiJkYWlseS1wdXNoIn0="
+     }
+    ]
+   ]
+  },
+  {
+   "id": 50095,
+   "type": "message",
+   "date": "2026-06-07T20:25:16",
+   "date_unixtime": "1780845916",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": "Hey Mira! I'm building TonSense Yield — a cross-chain yield comparator for TON ecosystem. I'm integrating Omniston SDK for swaps.\nCan you explain how Omniston RFQ (Request for Quote) flow works? Specifically:\n\nHow does the WebSocket quote stream work?\nWhat's the difference between SWAP and ORDER settlement?\nWhich token pairs are currently supported for crosschain?\nAny tips for handling \"no quote\" scenarios gracefully in a production app?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Hey Mira! I'm building TonSense Yield — a cross-chain yield comparator for TON ecosystem. I'm integrating Omniston SDK for swaps.\nCan you explain how Omniston RFQ (Request for Quote) flow works? Specifically:\n\nHow does the WebSocket quote stream work?\nWhat's the difference between SWAP and ORDER settlement?\nWhich token pairs are currently supported for crosschain?\nAny tips for handling \"no quote\" scenarios gracefully in a production app?"
+    }
+   ]
+  },
+  {
+   "id": 50096,
+   "type": "message",
+   "date": "2026-06-07T20:27:16",
+   "date_unixtime": "1780846036",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": [
+    "Alright, here's a deep dive into the Omniston RFQ flow — tailored for TonSense Yield:\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "1. WebSocket Quote Stream"
+    },
+    "\nThe RFQ flow is ",
+    {
+     "type": "bold",
+     "text": "streaming by design"
+    },
+    " — not a single request/response:\n\n1. ",
+    {
+     "type": "bold",
+     "text": "Connect"
+    },
+    " to the Omniston WebSocket endpoint and authenticate\n2. ",
+    {
+     "type": "bold",
+     "text": "Send a quote request"
+    },
+    " specifying the asset pair, amount, direction, and ",
+    {
+     "type": "code",
+     "text": "settlement_methods"
+    },
+    "\n3. ",
+    {
+     "type": "bold",
+     "text": "Receive a "
+    },
+    {
+     "type": "code",
+     "text": "QuoteRequestAck"
+    },
+    " with a unique ",
+    {
+     "type": "code",
+     "text": "rfq_id"
+    },
+    " — this is your stream handle\n4. ",
+    {
+     "type": "bold",
+     "text": "Stream "
+    },
+    {
+     "type": "code",
+     "text": "quote_updated"
+    },
+    {
+     "type": "bold",
+     "text": " events"
+    },
+    " — resolvers continuously push updated quotes as market conditions change. Each event carries a ",
+    {
+     "type": "code",
+     "text": "Quote"
+    },
+    " object with pricing, route details, and settlement params\n5. ",
+    {
+     "type": "bold",
+     "text": "Accept a quote"
+    },
+    " when you're satisfied — the stream keeps updating until you do or it expires\n\nKey params you can tune:\n• ",
+    {
+     "type": "code",
+     "text": "max_price_slippage_bps"
+    },
+    " — slippage tolerance in bps (100 = 1%)\n• ",
+    {
+     "type": "code",
+     "text": "gasless_settlement"
+    },
+    " — enables gasless execution\n• ",
+    {
+     "type": "code",
+     "text": "max_outgoing_messages"
+    },
+    " — caps TON message complexity\n• ",
+    {
+     "type": "code",
+     "text": "flexible_referrer_fee"
+    },
+    " — lets the resolver adjust fees for better quotes\n\n",
+    {
+     "type": "bold",
+     "text": "Pro tip for TonSense:"
+    },
+    " Since you're comparing yields, keep the stream open and aggregate quotes over a short window (e.g. 5-10s) to pick the best one. Don't just grab the first quote.\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "2. SWAP vs ORDER Settlement"
+    },
+    "\n",
+    {
+     "type": "pre",
+     "text": "               | **SWAP** (`SETTLEMENT_METHOD_SWAP = 0`) | **ORDER** (`SETTLEMENT_METHOD_ORDER = 1`)                               \n---------------+-----------------------------------------+-------------------------------------------------------------------------\n**Scope**      | Single-chain (TON → TON)                | Cross-chain (TON ↔ external chain)                                      \n**Execution**  | Immediate, routed through TON DEXs      | HTLC-based atomic swap across chains                                    \n**Mechanism**  | DEX liquidity pools on TON              | Hashed Timelock Contracts on both chains                                \n**Finality**   | Fast (seconds)                          | Slower (depends on both chains' block times)                            \n**Risk model** | Standard DEX slippage                   | Time-locked — funds revert if the counterparty doesn't reveal the secret",
+     "language": ""
+    },
+    "\nFor ",
+    {
+     "type": "bold",
+     "text": "cross-chain"
+    },
+    " in TonSense, you'll use ",
+    {
+     "type": "bold",
+     "text": "ORDER"
+    },
+    " settlement. The HTLC flow:\n1. Your contract locks funds on TON with a hash + timelock\n2. The resolver matches and locks equivalent funds on the target chain\n3. The secret is revealed → both sides unlock atomically\n4. If the timelock expires → funds return to the sender\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "3. Currently Supported Cross-Chain Pairs"
+    },
+    "\nAs of ",
+    {
+     "type": "bold",
+     "text": "v1beta8"
+    },
+    " (sandbox), the supported cross-chain routes are:\n\n• ",
+    {
+     "type": "bold",
+     "text": "TON ↔ Base"
+    },
+    " — stablecoin pairs (USDT, USDC)\n• ",
+    {
+     "type": "bold",
+     "text": "TON ↔ Polygon"
+    },
+    " — stablecoin pairs (USDT, USDC, pUSD)\n\nFull cross-chain execution with broader pair support is expected to go live when the resolver infrastructure launches (planned for ",
+    {
+     "type": "bold",
+     "text": "summer 2026"
+    },
+    ").\n\nFor ",
+    {
+     "type": "bold",
+     "text": "single-chain"
+    },
+    " swaps on TON, Omniston aggregates liquidity from ",
+    {
+     "type": "link",
+     "text": "STON.fi"
+    },
+    " DEX and other TON DEXs — so all major TON token pairs are available there.\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "4. Handling \"No Quote\" Scenarios"
+    },
+    "\nThis is critical for a production yield comparator. Here's what I'd recommend:\n\n",
+    {
+     "type": "bold",
+     "text": "Immediate UX:"
+    },
+    "\n• Show a clear \"No route available\" state — greyed-out fields, not an error modal\n• Display the last known price as an ",
+    {
+     "type": "italic",
+     "text": "estimate"
+    },
+    " with a stale indicator\n• Offer a \"Retry\" or \"Notify me when available\" button\n\n",
+    {
+     "type": "bold",
+     "text": "Technical resilience:"
+    },
+    "\n• ",
+    {
+     "type": "bold",
+     "text": "Exponential backoff retries"
+    },
+    " — don't hammer the API, but do retry (1s → 2s → 4s → give up)\n• ",
+    {
+     "type": "bold",
+     "text": "Fallback to single-chain"
+    },
+    " — if cross-chain ORDER quotes fail, fall back to showing TON-only SWAP routes\n• ",
+    {
+     "type": "bold",
+     "text": "Cache recent quotes"
+    },
+    " with TTL — serve stale data with a disclaimer rather than nothing\n• ",
+    {
+     "type": "bold",
+     "text": "Log & monitor"
+    },
+    " — track \"no quote\" frequency per pair to identify liquidity gaps\n\n",
+    {
+     "type": "bold",
+     "text": "Smart defaults for TonSense:"
+    },
+    "\n• Set a reasonable ",
+    {
+     "type": "code",
+     "text": "max_price_slippage_bps"
+    },
+    " (start with 100-300 bps) — too tight = more \"no quotes\"\n• Try multiple ",
+    {
+     "type": "code",
+     "text": "settlement_methods"
+    },
+    " in your RFQ — request both SWAP and ORDER, then filter\n• For low-liquidity pairs, consider batching requests during off-peak hours for yield data\n\n\n\nWant me to dig deeper into any of these areas — like the gRPC message structures, or help you scaffold the WebSocket integrat…"
+   ],
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Alright, here's a deep dive into the Omniston RFQ flow — tailored for TonSense Yield:\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "1. WebSocket Quote Stream"
+    },
+    {
+     "type": "plain",
+     "text": "\nThe RFQ flow is "
+    },
+    {
+     "type": "bold",
+     "text": "streaming by design"
+    },
+    {
+     "type": "plain",
+     "text": " — not a single request/response:\n\n1. "
+    },
+    {
+     "type": "bold",
+     "text": "Connect"
+    },
+    {
+     "type": "plain",
+     "text": " to the Omniston WebSocket endpoint and authenticate\n2. "
+    },
+    {
+     "type": "bold",
+     "text": "Send a quote request"
+    },
+    {
+     "type": "plain",
+     "text": " specifying the asset pair, amount, direction, and "
+    },
+    {
+     "type": "code",
+     "text": "settlement_methods"
+    },
+    {
+     "type": "plain",
+     "text": "\n3. "
+    },
+    {
+     "type": "bold",
+     "text": "Receive a "
+    },
+    {
+     "type": "code",
+     "text": "QuoteRequestAck"
+    },
+    {
+     "type": "plain",
+     "text": " with a unique "
+    },
+    {
+     "type": "code",
+     "text": "rfq_id"
+    },
+    {
+     "type": "plain",
+     "text": " — this is your stream handle\n4. "
+    },
+    {
+     "type": "bold",
+     "text": "Stream "
+    },
+    {
+     "type": "code",
+     "text": "quote_updated"
+    },
+    {
+     "type": "bold",
+     "text": " events"
+    },
+    {
+     "type": "plain",
+     "text": " — resolvers continuously push updated quotes as market conditions change. Each event carries a "
+    },
+    {
+     "type": "code",
+     "text": "Quote"
+    },
+    {
+     "type": "plain",
+     "text": " object with pricing, route details, and settlement params\n5. "
+    },
+    {
+     "type": "bold",
+     "text": "Accept a quote"
+    },
+    {
+     "type": "plain",
+     "text": " when you're satisfied — the stream keeps updating until you do or it expires\n\nKey params you can tune:\n• "
+    },
+    {
+     "type": "code",
+     "text": "max_price_slippage_bps"
+    },
+    {
+     "type": "plain",
+     "text": " — slippage tolerance in bps (100 = 1%)\n• "
+    },
+    {
+     "type": "code",
+     "text": "gasless_settlement"
+    },
+    {
+     "type": "plain",
+     "text": " — enables gasless execution\n• "
+    },
+    {
+     "type": "code",
+     "text": "max_outgoing_messages"
+    },
+    {
+     "type": "plain",
+     "text": " — caps TON message complexity\n• "
+    },
+    {
+     "type": "code",
+     "text": "flexible_referrer_fee"
+    },
+    {
+     "type": "plain",
+     "text": " — lets the resolver adjust fees for better quotes\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Pro tip for TonSense:"
+    },
+    {
+     "type": "plain",
+     "text": " Since you're comparing yields, keep the stream open and aggregate quotes over a short window (e.g. 5-10s) to pick the best one. Don't just grab the first quote.\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "2. SWAP vs ORDER Settlement"
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "pre",
+     "text": "               | **SWAP** (`SETTLEMENT_METHOD_SWAP = 0`) | **ORDER** (`SETTLEMENT_METHOD_ORDER = 1`)                               \n---------------+-----------------------------------------+-------------------------------------------------------------------------\n**Scope**      | Single-chain (TON → TON)                | Cross-chain (TON ↔ external chain)                                      \n**Execution**  | Immediate, routed through TON DEXs      | HTLC-based atomic swap across chains                                    \n**Mechanism**  | DEX liquidity pools on TON              | Hashed Timelock Contracts on both chains                                \n**Finality**   | Fast (seconds)                          | Slower (depends on both chains' block times)                            \n**Risk model** | Standard DEX slippage                   | Time-locked — funds revert if the counterparty doesn't reveal the secret",
+     "language": ""
+    },
+    {
+     "type": "plain",
+     "text": "\nFor "
+    },
+    {
+     "type": "bold",
+     "text": "cross-chain"
+    },
+    {
+     "type": "plain",
+     "text": " in TonSense, you'll use "
+    },
+    {
+     "type": "bold",
+     "text": "ORDER"
+    },
+    {
+     "type": "plain",
+     "text": " settlement. The HTLC flow:\n1. Your contract locks funds on TON with a hash + timelock\n2. The resolver matches and locks equivalent funds on the target chain\n3. The secret is revealed → both sides unlock atomically\n4. If the timelock expires → funds return to the sender\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "3. Currently Supported Cross-Chain Pairs"
+    },
+    {
+     "type": "plain",
+     "text": "\nAs of "
+    },
+    {
+     "type": "bold",
+     "text": "v1beta8"
+    },
+    {
+     "type": "plain",
+     "text": " (sandbox), the supported cross-chain routes are:\n\n• "
+    },
+    {
+     "type": "bold",
+     "text": "TON ↔ Base"
+    },
+    {
+     "type": "plain",
+     "text": " — stablecoin pairs (USDT, USDC)\n• "
+    },
+    {
+     "type": "bold",
+     "text": "TON ↔ Polygon"
+    },
+    {
+     "type": "plain",
+     "text": " — stablecoin pairs (USDT, USDC, pUSD)\n\nFull cross-chain execution with broader pair support is expected to go live when the resolver infrastructure launches (planned for "
+    },
+    {
+     "type": "bold",
+     "text": "summer 2026"
+    },
+    {
+     "type": "plain",
+     "text": ").\n\nFor "
+    },
+    {
+     "type": "bold",
+     "text": "single-chain"
+    },
+    {
+     "type": "plain",
+     "text": " swaps on TON, Omniston aggregates liquidity from "
+    },
+    {
+     "type": "link",
+     "text": "STON.fi"
+    },
+    {
+     "type": "plain",
+     "text": " DEX and other TON DEXs — so all major TON token pairs are available there.\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "4. Handling \"No Quote\" Scenarios"
+    },
+    {
+     "type": "plain",
+     "text": "\nThis is critical for a production yield comparator. Here's what I'd recommend:\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Immediate UX:"
+    },
+    {
+     "type": "plain",
+     "text": "\n• Show a clear \"No route available\" state — greyed-out fields, not an error modal\n• Display the last known price as an "
+    },
+    {
+     "type": "italic",
+     "text": "estimate"
+    },
+    {
+     "type": "plain",
+     "text": " with a stale indicator\n• Offer a \"Retry\" or \"Notify me when available\" button\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Technical resilience:"
+    },
+    {
+     "type": "plain",
+     "text": "\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Exponential backoff retries"
+    },
+    {
+     "type": "plain",
+     "text": " — don't hammer the API, but do retry (1s → 2s → 4s → give up)\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Fallback to single-chain"
+    },
+    {
+     "type": "plain",
+     "text": " — if cross-chain ORDER quotes fail, fall back to showing TON-only SWAP routes\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Cache recent quotes"
+    },
+    {
+     "type": "plain",
+     "text": " with TTL — serve stale data with a disclaimer rather than nothing\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Log & monitor"
+    },
+    {
+     "type": "plain",
+     "text": " — track \"no quote\" frequency per pair to identify liquidity gaps\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Smart defaults for TonSense:"
+    },
+    {
+     "type": "plain",
+     "text": "\n• Set a reasonable "
+    },
+    {
+     "type": "code",
+     "text": "max_price_slippage_bps"
+    },
+    {
+     "type": "plain",
+     "text": " (start with 100-300 bps) — too tight = more \"no quotes\"\n• Try multiple "
+    },
+    {
+     "type": "code",
+     "text": "settlement_methods"
+    },
+    {
+     "type": "plain",
+     "text": " in your RFQ — request both SWAP and ORDER, then filter\n• For low-liquidity pairs, consider batching requests during off-peak hours for yield data\n\n\n\nWant me to dig deeper into any of these areas — like the gRPC message structures, or help you scaffold the WebSocket integrat…"
+    }
+   ]
+  },
+  {
+   "id": 50097,
+   "type": "message",
+   "date": "2026-06-07T20:28:41",
+   "date_unixtime": "1780846121",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": "For TonSense Yield specifically — a user sees USDT earns 4.1% APY on TON vs 2.8% on Ethereum. They want to move their USDT from Ethereum to TON to get better yield. What's the recommended flow using Omniston? What risks should I warn them about?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "For TonSense Yield specifically — a user sees USDT earns 4.1% APY on TON vs 2.8% on Ethereum. They want to move their USDT from Ethereum to TON to get better yield. What's the recommended flow using Omniston? What risks should I warn them about?"
+    }
+   ]
+  },
+  {
+   "id": 50098,
+   "type": "message",
+   "date": "2026-06-07T20:30:20",
+   "date_unixtime": "1780846220",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": [
+    "Here's the full picture for your user's ETH → TON USDT cross-chain move:\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "Recommended Flow: Ethereum USDT → TON USDT via Omniston"
+    },
+    "\n",
+    {
+     "type": "bold",
+     "text": "Step-by-step"
+    },
+    "\n",
+    {
+     "type": "bold",
+     "text": "1. Quote Request (your app)"
+    },
+    "\n",
+    {
+     "type": "pre",
+     "text": "RFQ: 1000 USDT (Ethereum) → USDT (TON)\nsettlement_methods: [ORDER]  // cross-chain = ORDER\nsettlement_params: {\n  max_price_slippage_bps: 100,  // 1% tolerance\n  gasless_settlement: true       // user doesn't need TON for gas\n}",
+     "language": ""
+    },
+    "\n\n",
+    {
+     "type": "bold",
+     "text": "2. Stream Quotes"
+    },
+    "\n• Omniston returns a ",
+    {
+     "type": "code",
+     "text": "QuoteRequestAck"
+    },
+    " with ",
+    {
+     "type": "code",
+     "text": "rfq_id"
+    },
+    "\n• Resolvers push ",
+    {
+     "type": "code",
+     "text": "quote_updated"
+    },
+    " events — you'll see rates like:• ",
+    {
+     "type": "italic",
+     "text": "0.997 USDT (TON) per 1 USDT (Ethereum)"
+    },
+    " — the ~0.3% difference is the resolver's fee + bridge cost\n• Your app displays the best quote with a countdown timer\n\n",
+    {
+     "type": "bold",
+     "text": "3. User Accepts Quote"
+    },
+    "\n• Your app sends an accept message referencing the ",
+    {
+     "type": "code",
+     "text": "rfq_id"
+    },
+    "\n• Omniston locks in the rate at that moment\n\n",
+    {
+     "type": "bold",
+     "text": "4. HTLC Lock on Ethereum"
+    },
+    "\n• User's USDT is locked in an HTLC contract on Ethereum\n• A secret hash is generated — only the resolver can reveal the corresponding secret\n• ",
+    {
+     "type": "bold",
+     "text": "Timelock starts ticking"
+    },
+    " (typically 1-4 hours for cross-chain)\n\n",
+    {
+     "type": "bold",
+     "text": "5. HTLC Lock on TON"
+    },
+    "\n• The resolver locks equivalent USDT on TON in a matching HTLC\n• Same secret hash, but with a ",
+    {
+     "type": "italic",
+     "text": "shorter"
+    },
+    " timelock (so the resolver must act first)\n\n",
+    {
+     "type": "bold",
+     "text": "6. Secret Reveal → Atomic Settlement"
+    },
+    "\n• Resolver reveals the secret on TON → user's TON-side HTLC unlocks → USDT lands in user's TON wallet\n• The revealed secret propagates to Ethereum → resolver claims the Ethereum-side USDT\n• ",
+    {
+     "type": "bold",
+     "text": "Atomic"
+    },
+    ": both sides complete, or neither does\n\n",
+    {
+     "type": "bold",
+     "text": "7. User Deposits into Yield Pool"
+    },
+    "\n• Now the user has USDT on TON and can deposit into the 4.1% APY pool\n• Your app should make this a ",
+    {
+     "type": "bold",
+     "text": "one-click flow"
+    },
+    ": swap → deposit\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "Risks to Warn Users About"
+    },
+    "\n",
+    {
+     "type": "bold",
+     "text": "🔴 Critical"
+    },
+    "\n",
+    {
+     "type": "pre",
+     "text": "Risk                           | What Happens                                                                                         | Mitigation                                                                                  \n-------------------------------+------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------\n**Timelock expiry**            | If the swap doesn't complete within the timelock, funds are locked until you manually claim a refund | Set generous timelocks; auto-monitor and alert users to claim refunds                       \n**Slippage on volatile pairs** | The rate you see may differ from what you get — especially during high volatility                    | Set `max_price_slippage_bps` conservatively (100-300); show \"estimated receive\" with a range\n**Smart contract risk**        | HTLC contracts could have bugs                                                                       | Omniston's contracts are audited, but it's still early — never move your entire net worth   ",
+     "language": ""
+    },
+    "\n",
+    {
+     "type": "bold",
+     "text": "🟡 Important"
+    },
+    "\n",
+    {
+     "type": "pre",
+     "text": "Risk                   | What Happens                                                                              | Mitigation                                                     \n-----------------------+-------------------------------------------------------------------------------------------+----------------------------------------------------------------\n**Gas on Ethereum**    | Even with gasless on TON side, the user still needs ETH for the Ethereum-side transaction | Show estimated ETH gas cost upfront; warn if gas is high       \n**Yield rate changes** | 4.1% APY is *now* — it can drop after you bridge                                          | Show APY as \"current\" not guaranteed; link to historical data  \n**Liquidity gaps**     | No resolver may be available for the pair/amount at that moment                           | Queue the request; offer \"try again later\" or smaller amounts  \n**MEV front-running**  | On Ethereum, your HTLC creation tx could be front-run                                     | Use private mempools or Flashbots-style submission if available",
+     "language": ""
+    },
+    "\n",
+    {
+     "type": "bold",
+     "text": "🟢 Minor but worth mentioning"
+    },
+    "\n• ",
+    {
+     "type": "bold",
+     "text": "Bridge time"
+    },
+    ": cross-chain ORDER settlement takes minutes to hours, not seconds like a TON-only SWAP\n• ",
+    {
+     "type": "bold",
+     "text": "Tax implications"
+    },
+    ": moving asset…"
+   ],
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Here's the full picture for your user's ETH → TON USDT cross-chain move:\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Recommended Flow: Ethereum USDT → TON USDT via Omniston"
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "bold",
+     "text": "Step-by-step"
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "bold",
+     "text": "1. Quote Request (your app)"
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "pre",
+     "text": "RFQ: 1000 USDT (Ethereum) → USDT (TON)\nsettlement_methods: [ORDER]  // cross-chain = ORDER\nsettlement_params: {\n  max_price_slippage_bps: 100,  // 1% tolerance\n  gasless_settlement: true       // user doesn't need TON for gas\n}",
+     "language": ""
+    },
+    {
+     "type": "plain",
+     "text": "\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "2. Stream Quotes"
+    },
+    {
+     "type": "plain",
+     "text": "\n• Omniston returns a "
+    },
+    {
+     "type": "code",
+     "text": "QuoteRequestAck"
+    },
+    {
+     "type": "plain",
+     "text": " with "
+    },
+    {
+     "type": "code",
+     "text": "rfq_id"
+    },
+    {
+     "type": "plain",
+     "text": "\n• Resolvers push "
+    },
+    {
+     "type": "code",
+     "text": "quote_updated"
+    },
+    {
+     "type": "plain",
+     "text": " events — you'll see rates like:• "
+    },
+    {
+     "type": "italic",
+     "text": "0.997 USDT (TON) per 1 USDT (Ethereum)"
+    },
+    {
+     "type": "plain",
+     "text": " — the ~0.3% difference is the resolver's fee + bridge cost\n• Your app displays the best quote with a countdown timer\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "3. User Accepts Quote"
+    },
+    {
+     "type": "plain",
+     "text": "\n• Your app sends an accept message referencing the "
+    },
+    {
+     "type": "code",
+     "text": "rfq_id"
+    },
+    {
+     "type": "plain",
+     "text": "\n• Omniston locks in the rate at that moment\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "4. HTLC Lock on Ethereum"
+    },
+    {
+     "type": "plain",
+     "text": "\n• User's USDT is locked in an HTLC contract on Ethereum\n• A secret hash is generated — only the resolver can reveal the corresponding secret\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Timelock starts ticking"
+    },
+    {
+     "type": "plain",
+     "text": " (typically 1-4 hours for cross-chain)\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "5. HTLC Lock on TON"
+    },
+    {
+     "type": "plain",
+     "text": "\n• The resolver locks equivalent USDT on TON in a matching HTLC\n• Same secret hash, but with a "
+    },
+    {
+     "type": "italic",
+     "text": "shorter"
+    },
+    {
+     "type": "plain",
+     "text": " timelock (so the resolver must act first)\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "6. Secret Reveal → Atomic Settlement"
+    },
+    {
+     "type": "plain",
+     "text": "\n• Resolver reveals the secret on TON → user's TON-side HTLC unlocks → USDT lands in user's TON wallet\n• The revealed secret propagates to Ethereum → resolver claims the Ethereum-side USDT\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Atomic"
+    },
+    {
+     "type": "plain",
+     "text": ": both sides complete, or neither does\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "7. User Deposits into Yield Pool"
+    },
+    {
+     "type": "plain",
+     "text": "\n• Now the user has USDT on TON and can deposit into the 4.1% APY pool\n• Your app should make this a "
+    },
+    {
+     "type": "bold",
+     "text": "one-click flow"
+    },
+    {
+     "type": "plain",
+     "text": ": swap → deposit\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Risks to Warn Users About"
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "bold",
+     "text": "🔴 Critical"
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "pre",
+     "text": "Risk                           | What Happens                                                                                         | Mitigation                                                                                  \n-------------------------------+------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------\n**Timelock expiry**            | If the swap doesn't complete within the timelock, funds are locked until you manually claim a refund | Set generous timelocks; auto-monitor and alert users to claim refunds                       \n**Slippage on volatile pairs** | The rate you see may differ from what you get — especially during high volatility                    | Set `max_price_slippage_bps` conservatively (100-300); show \"estimated receive\" with a range\n**Smart contract risk**        | HTLC contracts could have bugs                                                                       | Omniston's contracts are audited, but it's still early — never move your entire net worth   ",
+     "language": ""
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "bold",
+     "text": "🟡 Important"
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "pre",
+     "text": "Risk                   | What Happens                                                                              | Mitigation                                                     \n-----------------------+-------------------------------------------------------------------------------------------+----------------------------------------------------------------\n**Gas on Ethereum**    | Even with gasless on TON side, the user still needs ETH for the Ethereum-side transaction | Show estimated ETH gas cost upfront; warn if gas is high       \n**Yield rate changes** | 4.1% APY is *now* — it can drop after you bridge                                          | Show APY as \"current\" not guaranteed; link to historical data  \n**Liquidity gaps**     | No resolver may be available for the pair/amount at that moment                           | Queue the request; offer \"try again later\" or smaller amounts  \n**MEV front-running**  | On Ethereum, your HTLC creation tx could be front-run                                     | Use private mempools or Flashbots-style submission if available",
+     "language": ""
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "bold",
+     "text": "🟢 Minor but worth mentioning"
+    },
+    {
+     "type": "plain",
+     "text": "\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Bridge time"
+    },
+    {
+     "type": "plain",
+     "text": ": cross-chain ORDER settlement takes minutes to hours, not seconds like a TON-only SWAP\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Tax implications"
+    },
+    {
+     "type": "plain",
+     "text": ": moving asset…"
+    }
+   ]
+  },
+  {
+   "id": 50099,
+   "type": "message",
+   "date": "2026-06-07T20:31:48",
+   "date_unixtime": "1780846308",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": "I'm getting \"emulation error: insufficient funds, swap bounced\" when building a USDT→TON swap transaction via Omniston SDK. The user has USDT in their wallet. What could cause this and how do I debug it?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "I'm getting \"emulation error: insufficient funds, swap bounced\" when building a USDT→TON swap transaction via Omniston SDK. The user has USDT in their wallet. What could cause this and how do I debug it?"
+    }
+   ]
+  },
+  {
+   "id": 50100,
+   "type": "message",
+   "date": "2026-06-07T20:34:16",
+   "date_unixtime": "1780846456",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": "Summary of findings and likely fixes for “emulation error: insufficient funds, swap bounced” on TON via Omniston:\n\nRoot causes (most common first)\n• No TON for gas: The wallet has USDT (jetton) but 0 TON, so the jetton transfer/swap message can’t pay fees and bounces.\n• Jetton wallet not deployed: The user’s USDT jetton wallet contract may be undeployed; first outbound transfer requires a bit of TON to deploy/init.\n• Too little attached TON in message: The swap/jetton transfer to the router needs a sufficient forward_ton_amount/forward_value to cover processing and response. If it’s too low, the internal message bounces.\n• Misconfigured params: Missing/incorrect response_destination or send_gas_to, wrong network (testnet/mainnet), or outdated SDK/build.\n• Emulation context/state: Emulator uses on-chain state; if it sees zero TON or undeployed jetton wallet, it will return “insufficient funds” even before broadcast.\n\nWhat to do (practical checklist)\n• Ensure TON dust: Fund the wallet with a small TON buffer (e.g., 0.05–0.2 TON). This alone fixes most cases.\n• Deploy/initialize jetton wallet: If undeployed, send a tiny TON-funded jetton action (or use SDK helper like getOrCreateJettonWallet) to deploy.\n• Raise forward_ton_amount: When sending jetton transfer to the swap router/resolver, attach enough TON (commonly 0.03–0.1 TON) so the router can process and send the result message.\n• Verify addresses/params: Correct token master and router addresses, set response_destination and send_gas_to properly, and confirm you’re on the intended network.\n• Rerun emulation and inspect phases: Look at action phase/bounce details and exit codes; “insufficient funds” in action phase typically points to fee/forward value issues.\n• Update SDK and re-estimate fees: Make sure you’re on the latest Omniston SDK and re-run fee estimation before building the message.\n• Don’t rely on gasless for the initial TON message: Even with gasless settlement, the initiating wallet typically still needs TON to send the first internal message unless you’re using a relayer flow.\n\nIf you share the emulation payload, the wallet address, and your forward_ton_amount settings, I can pinpoint which of these is biting you.",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "Summary of findings and likely fixes for “emulation error: insufficient funds, swap bounced” on TON via Omniston:\n\nRoot causes (most common first)\n• No TON for gas: The wallet has USDT (jetton) but 0 TON, so the jetton transfer/swap message can’t pay fees and bounces.\n• Jetton wallet not deployed: The user’s USDT jetton wallet contract may be undeployed; first outbound transfer requires a bit of TON to deploy/init.\n• Too little attached TON in message: The swap/jetton transfer to the router needs a sufficient forward_ton_amount/forward_value to cover processing and response. If it’s too low, the internal message bounces.\n• Misconfigured params: Missing/incorrect response_destination or send_gas_to, wrong network (testnet/mainnet), or outdated SDK/build.\n• Emulation context/state: Emulator uses on-chain state; if it sees zero TON or undeployed jetton wallet, it will return “insufficient funds” even before broadcast.\n\nWhat to do (practical checklist)\n• Ensure TON dust: Fund the wallet with a small TON buffer (e.g., 0.05–0.2 TON). This alone fixes most cases.\n• Deploy/initialize jetton wallet: If undeployed, send a tiny TON-funded jetton action (or use SDK helper like getOrCreateJettonWallet) to deploy.\n• Raise forward_ton_amount: When sending jetton transfer to the swap router/resolver, attach enough TON (commonly 0.03–0.1 TON) so the router can process and send the result message.\n• Verify addresses/params: Correct token master and router addresses, set response_destination and send_gas_to properly, and confirm you’re on the intended network.\n• Rerun emulation and inspect phases: Look at action phase/bounce details and exit codes; “insufficient funds” in action phase typically points to fee/forward value issues.\n• Update SDK and re-estimate fees: Make sure you’re on the latest Omniston SDK and re-run fee estimation before building the message.\n• Don’t rely on gasless for the initial TON message: Even with gasless settlement, the initiating wallet typically still needs TON to send the first internal message unless you’re using a relayer flow.\n\nIf you share the emulation payload, the wallet address, and your forward_ton_amount settings, I can pinpoint which of these is biting you."
+    }
+   ]
+  },
+  {
+   "id": 50101,
+   "type": "message",
+   "date": "2026-06-07T20:34:53",
+   "date_unixtime": "1780846493",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": "I'm building TonSense Yield — a yield comparator that shows APY across TON, Ethereum, Base and BNB Chain, with one-click swaps via Omniston. What do you think about this product idea? Any suggestions to make it more useful for TON newcomers?",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "I'm building TonSense Yield — a yield comparator that shows APY across TON, Ethereum, Base and BNB Chain, with one-click swaps via Omniston. What do you think about this product idea? Any suggestions to make it more useful for TON newcomers?"
+    }
+   ]
+  },
+  {
+   "id": 50102,
+   "type": "message",
+   "date": "2026-06-07T20:37:01",
+   "date_unixtime": "1780846621",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": [
+    "I genuinely like the concept — cross-chain yield comparison with execution in one flow is a real pain point. But there are a few traps I'd watch for, especially with TON newcomers in mind.\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "What's strong"
+    },
+    "\n• ",
+    {
+     "type": "bold",
+     "text": "Yield opacity is real."
+    },
+    " Right now, if someone holds USDT on TON and sees \"4.1% APY\" on a pool, they have no idea whether that's good or bad without manually checking Aave, Compound, Venus, etc. A comparator that does this in real time solves an actual problem.\n• ",
+    {
+     "type": "bold",
+     "text": "One-click execution."
+    },
+    " The gap between \"I see a better yield\" and \"I've moved my money\" is where most users drop off. If Omniston actually makes that seamless, that's the killer feature.\n• ",
+    {
+     "type": "bold",
+     "text": "Multi-chain lens."
+    },
+    " Most TON-native tools only show TON yields. Showing Base or Ethereum yields next to TON gives newcomers context — \"oh, I'm earning 4% here but could earn 7% there\" is a much more powerful hook than \"4% APY\" in isolation.\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "Where it gets tricky"
+    },
+    "\n",
+    {
+     "type": "bold",
+     "text": "1. Yield numbers lie if you don't contextualize them"
+    },
+    "\n\nA flat APY comparison is misleading. 12% on Venus BNB is not the same as 4.1% on TON:\n\n• Is it variable or fixed? (most are variable)\n• What's the TVL? (low TVL = higher yield but higher risk of depegs)\n• Is the protocol audited? (TON DeFi is early — most pools aren't)\n• What are the hidden costs? (bridge fees, gas, slippage)\n\n",
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    " Show yield ",
+    {
+     "type": "italic",
+     "text": "net of estimated costs"
+    },
+    ". If someone bridges 1,000 USDT from TON to Base for 7% APY, but the bridge costs 0.5% and gas is $2, their ",
+    {
+     "type": "italic",
+     "text": "effective first-month yield"
+    },
+    " is more like 1-2%. That's the number that matters for decision-making.\n\n",
+    {
+     "type": "bold",
+     "text": "2. TON newcomers don't think in chains"
+    },
+    "\n\nYour target user probably doesn't know what Base is. They have USDT on TON because someone sent it to them on Telegram. They don't have MetaMask, they don't have ETH for gas on Base, and they definitely don't know what a bridge is.\n\n",
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    " Abstract the chain entirely. Instead of:\n\n",
+    {
+     "type": "blockquote",
+     "text": "🔵 TON: 4.1% APY | 🔴 Ethereum: 3.8% APY | 🔵 Base: 7.2% APY",
+     "collapsed": false
+    },
+    "\n\nShow:\n\n",
+    {
+     "type": "blockquote",
+     "text": "Best yield: 7.2% on Base — you'd earn ~$6/month more than your current TON pool. Move in one tap → [Swap & Deposit]",
+     "collapsed": false
+    },
+    "\n\nAnd only reveal the chain details on a secondary screen for power users.\n\n",
+    {
+     "type": "bold",
+     "text": "3. The \"one-click\" promise is hard to keep"
+    },
+    "\n\nFrom our earlier debugging — the user needs TON for gas, the jetton wallet might not be deployed, cross-chain swaps take minutes to hours, and the destination chain needs gas too. \"One click\" can quickly become \"5 steps, 3 error messages, and a 20-minute wait.\"\n\n",
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    " Be brutally honest about the flow. Show a progress tracker:\n\n",
+    {
+     "type": "pre",
+     "text": "⏳ Step 1/3 — Swapping USDT on TON → Base (~2 min)\n⏳ Step 2/3 — Bridging to Base (~5 min)  \n⏳ Step 3/3 — Depositing into Aave Base (~1 min)",
+     "language": ""
+    },
+    "\n\nAnd pre-flight the wallet: check for TON gas, jetton wallet deployment, and destination chain setup ",
+    {
+     "type": "italic",
+     "text": "before"
+    },
+    " the user clicks \"start.\" If something's missing, say \"You need 0.1 TON for gas — here's how to get it\" rather than letting them hit an error mid-flow.\n\n",
+    {
+     "type": "bold",
+     "text": "4. Risk is the missing layer"
+    },
+    "\n\nYield comparison without risk context is dangerous, especially for newcomers. Someone sees 15% APY on a BNB pool and goes all-in without understanding they could lose principal.\n\n",
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    " Add a simple risk tier:\n\n",
+    {
+     "type": "pre",
+     "text": "Tier      | Label                               | Criteria               \n----------+-------------------------------------+------------------------\n🟢 Low    | Audited, 6+ months live, TVL > $50M | Aave, Compound         \n🟡 Medium | Audited, newer, TVL $5-50M          | Venus, newer TON pools \n🔴 High   | Unaudited, <3 months, low TVL       | Most TON DeFi right now",
+     "language": ""
+    },
+    "\nLet users filter by risk. Default to showing only 🟢 and 🟡.\n\n",
+    {
+     "type": "bold",
+     "text": "5. Retention > acquisition"
+    },
+    "\n\nA yield comparator is a one-time tool unless you give people a reason to come back.\n\n",
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    " Add yield alerts. \"Your TON USDT pool dropped from 4.1% to 2.8% — Base is now 2x better. Want to move?\" This turns a utility into a habit.\n\n\n\n",
+    {
+     "type": "bold",
+     "text": "Feature ideas specifically for TON newcomers"
+    },
+    "\n• ",
+    {
+     "type": "bold",
+     "text": "\"Start here\" flow"
+    },
+    ": If the user has USDT on TON but no other chain wallets, walk them through the first cross-chain move with tooltips at every step\n• ",
+    {
+     "type": "bold",
+     "text": "Gas cost estimator…"
+    },
+    ""
+   ],
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "I genuinely like the concept — cross-chain yield comparison with execution in one flow is a real pain point. But there are a few traps I'd watch for, especially with TON newcomers in mind.\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "What's strong"
+    },
+    {
+     "type": "plain",
+     "text": "\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Yield opacity is real."
+    },
+    {
+     "type": "plain",
+     "text": " Right now, if someone holds USDT on TON and sees \"4.1% APY\" on a pool, they have no idea whether that's good or bad without manually checking Aave, Compound, Venus, etc. A comparator that does this in real time solves an actual problem.\n• "
+    },
+    {
+     "type": "bold",
+     "text": "One-click execution."
+    },
+    {
+     "type": "plain",
+     "text": " The gap between \"I see a better yield\" and \"I've moved my money\" is where most users drop off. If Omniston actually makes that seamless, that's the killer feature.\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Multi-chain lens."
+    },
+    {
+     "type": "plain",
+     "text": " Most TON-native tools only show TON yields. Showing Base or Ethereum yields next to TON gives newcomers context — \"oh, I'm earning 4% here but could earn 7% there\" is a much more powerful hook than \"4% APY\" in isolation.\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Where it gets tricky"
+    },
+    {
+     "type": "plain",
+     "text": "\n"
+    },
+    {
+     "type": "bold",
+     "text": "1. Yield numbers lie if you don't contextualize them"
+    },
+    {
+     "type": "plain",
+     "text": "\n\nA flat APY comparison is misleading. 12% on Venus BNB is not the same as 4.1% on TON:\n\n• Is it variable or fixed? (most are variable)\n• What's the TVL? (low TVL = higher yield but higher risk of depegs)\n• Is the protocol audited? (TON DeFi is early — most pools aren't)\n• What are the hidden costs? (bridge fees, gas, slippage)\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    {
+     "type": "plain",
+     "text": " Show yield "
+    },
+    {
+     "type": "italic",
+     "text": "net of estimated costs"
+    },
+    {
+     "type": "plain",
+     "text": ". If someone bridges 1,000 USDT from TON to Base for 7% APY, but the bridge costs 0.5% and gas is $2, their "
+    },
+    {
+     "type": "italic",
+     "text": "effective first-month yield"
+    },
+    {
+     "type": "plain",
+     "text": " is more like 1-2%. That's the number that matters for decision-making.\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "2. TON newcomers don't think in chains"
+    },
+    {
+     "type": "plain",
+     "text": "\n\nYour target user probably doesn't know what Base is. They have USDT on TON because someone sent it to them on Telegram. They don't have MetaMask, they don't have ETH for gas on Base, and they definitely don't know what a bridge is.\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    {
+     "type": "plain",
+     "text": " Abstract the chain entirely. Instead of:\n\n"
+    },
+    {
+     "type": "blockquote",
+     "text": "🔵 TON: 4.1% APY | 🔴 Ethereum: 3.8% APY | 🔵 Base: 7.2% APY",
+     "collapsed": false
+    },
+    {
+     "type": "plain",
+     "text": "\n\nShow:\n\n"
+    },
+    {
+     "type": "blockquote",
+     "text": "Best yield: 7.2% on Base — you'd earn ~$6/month more than your current TON pool. Move in one tap → [Swap & Deposit]",
+     "collapsed": false
+    },
+    {
+     "type": "plain",
+     "text": "\n\nAnd only reveal the chain details on a secondary screen for power users.\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "3. The \"one-click\" promise is hard to keep"
+    },
+    {
+     "type": "plain",
+     "text": "\n\nFrom our earlier debugging — the user needs TON for gas, the jetton wallet might not be deployed, cross-chain swaps take minutes to hours, and the destination chain needs gas too. \"One click\" can quickly become \"5 steps, 3 error messages, and a 20-minute wait.\"\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    {
+     "type": "plain",
+     "text": " Be brutally honest about the flow. Show a progress tracker:\n\n"
+    },
+    {
+     "type": "pre",
+     "text": "⏳ Step 1/3 — Swapping USDT on TON → Base (~2 min)\n⏳ Step 2/3 — Bridging to Base (~5 min)  \n⏳ Step 3/3 — Depositing into Aave Base (~1 min)",
+     "language": ""
+    },
+    {
+     "type": "plain",
+     "text": "\n\nAnd pre-flight the wallet: check for TON gas, jetton wallet deployment, and destination chain setup "
+    },
+    {
+     "type": "italic",
+     "text": "before"
+    },
+    {
+     "type": "plain",
+     "text": " the user clicks \"start.\" If something's missing, say \"You need 0.1 TON for gas — here's how to get it\" rather than letting them hit an error mid-flow.\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "4. Risk is the missing layer"
+    },
+    {
+     "type": "plain",
+     "text": "\n\nYield comparison without risk context is dangerous, especially for newcomers. Someone sees 15% APY on a BNB pool and goes all-in without understanding they could lose principal.\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    {
+     "type": "plain",
+     "text": " Add a simple risk tier:\n\n"
+    },
+    {
+     "type": "pre",
+     "text": "Tier      | Label                               | Criteria               \n----------+-------------------------------------+------------------------\n🟢 Low    | Audited, 6+ months live, TVL > $50M | Aave, Compound         \n🟡 Medium | Audited, newer, TVL $5-50M          | Venus, newer TON pools \n🔴 High   | Unaudited, <3 months, low TVL       | Most TON DeFi right now",
+     "language": ""
+    },
+    {
+     "type": "plain",
+     "text": "\nLet users filter by risk. Default to showing only 🟢 and 🟡.\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "5. Retention > acquisition"
+    },
+    {
+     "type": "plain",
+     "text": "\n\nA yield comparator is a one-time tool unless you give people a reason to come back.\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Suggestion:"
+    },
+    {
+     "type": "plain",
+     "text": " Add yield alerts. \"Your TON USDT pool dropped from 4.1% to 2.8% — Base is now 2x better. Want to move?\" This turns a utility into a habit.\n\n\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "Feature ideas specifically for TON newcomers"
+    },
+    {
+     "type": "plain",
+     "text": "\n• "
+    },
+    {
+     "type": "bold",
+     "text": "\"Start here\" flow"
+    },
+    {
+     "type": "plain",
+     "text": ": If the user has USDT on TON but no other chain wallets, walk them through the first cross-chain move with tooltips at every step\n• "
+    },
+    {
+     "type": "bold",
+     "text": "Gas cost estimator…"
+    },
+    {
+     "type": "plain",
+     "text": ""
+    }
+   ]
+  },
+  {
+   "id": 50103,
+   "type": "message",
+   "date": "2026-06-07T20:38:51",
+   "date_unixtime": "1780846731",
+   "from": "Artur Podchayev",
+   "from_id": "user7962377826",
+   "text": "okay, thanks!",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "okay, thanks!"
+    }
+   ]
+  },
+  {
+   "id": 50104,
+   "type": "message",
+   "date": "2026-06-07T20:38:56",
+   "date_unixtime": "1780846736",
+   "from": "Mira",
+   "from_id": "user8377231659",
+   "text": "You're welcome! Good luck with TonSense Yield — the idea has real legs. If you hit more Omniston SDK issues or want to bounce off UX flows, you know where to find me 👋",
+   "text_entities": [
+    {
+     "type": "plain",
+     "text": "You're welcome! Good luck with TonSense Yield — the idea has real legs. If you hit more Omniston SDK issues or want to bounce off UX flows, you know where to find me 👋"
+    }
+   ]
+  }
+ ]
+}
