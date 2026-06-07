@@ -14,6 +14,13 @@ export interface SwapConfig {
   crosschain: boolean;
 }
 
+export interface StakingInfo {
+  protocol: string;
+  url: string;
+  receivedAsset: string;
+  description: string;
+}
+
 export interface ApyRow {
   asset: string;
   symbol: string;
@@ -24,7 +31,8 @@ export interface ApyRow {
   bnbApy: number | null;
   bestChain: string;
   bestApy: number;
-  swap: SwapConfig;
+  swap?: SwapConfig;
+  stakingInfo?: StakingInfo;
 }
 
 export const APY_DATA: ApyRow[] = [
@@ -38,21 +46,12 @@ export const APY_DATA: ApyRow[] = [
     bnbApy: null,
     bestChain: "TON",
     bestApy: 5.2,
-    // TON → USDT on Ethereum (crosschain via Omniston ORDER/HTLC)
-    swap: {
-      input: {
-        chain: "ton",
-        label: "TON (native)",
-        contractAddress: undefined,
-        decimals: 9,
-      },
-      output: {
-        chain: "ethereum",
-        label: "USDT on Ethereum",
-        contractAddress: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        decimals: 6,
-      },
-      crosschain: true,
+    // TON staking via Tonstakers — no Omniston swap (Omniston only does stablecoin crosschain)
+    stakingInfo: {
+      protocol: "Tonstakers",
+      url: "https://tonstakers.com",
+      receivedAsset: "tsTON",
+      description: "Liquid staking on TON. Stake TON, receive tsTON — a yield-bearing token that accrues 5.2% APY. No lockup, unstake anytime.",
     },
   },
   {

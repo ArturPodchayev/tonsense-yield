@@ -6,8 +6,11 @@ import { useRfq, useOmniston } from "@ston-fi/omniston-sdk-react";
 import type { Quote, AssetId, ChainAddress } from "@ston-fi/omniston-sdk";
 import type { ApyRow, SwapConfig } from "@/lib/apyData";
 
+// Only called for rows that have swap defined
+type SwapRow = ApyRow & { swap: SwapConfig };
+
 interface SwapModalProps {
-  row: ApyRow;
+  row: SwapRow;
   onClose: () => void;
 }
 

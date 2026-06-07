@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { APY_DATA, CHAIN_LABELS, type ApyRow, type ChainKey } from "@/lib/apyData";
+import { APY_DATA, CHAIN_LABELS, type ApyRow, type ChainKey, type SwapConfig, type StakingInfo } from "@/lib/apyData";
 import { SwapModal } from "./SwapModal";
+import { StakingModal } from "./StakingModal";
 
 const CHAINS: ChainKey[] = ["tonApy", "ethApy", "baseApy", "bnbApy"];
 
@@ -42,8 +43,17 @@ function BestBadge({ chain, apy }: { chain: string; apy: number }) {
   );
 }
 
+type SwapRow = ApyRow & { swap: SwapConfig };
+type StakingRow = ApyRow & { stakingInfo: StakingInfo };
+
 export function YieldTable() {
-  const [selectedRow, setSelectedRow] = useState<ApyRow | null>(null);
+  const [swapRow, setSwapRow] = useState<SwapRow | null>(null);
+  const [stakingRow, setStakingRow] = useState<StakingRow | null>(null);
+
+  function openRow(row: ApyRow) {
+    if (row.swap) setSwapRow(row as SwapRow);
+    else if (row.stakingInfo) setStakingRow(row as StakingRow);
+  }
 
   return (
     <>
@@ -148,13 +158,13 @@ export function YieldTable() {
                   {/* Action */}
                   <td className="px-6 py-4 text-right">
                     <button
-                      onClick={() => setSelectedRow(row)}
+                      onClick={() => openRow(row)}
                       className="px-4 py-2 rounded-[10px] text-sm font-medium text-white transition-all hover:opacity-90 active:scale-[0.97]"
                       style={{
                         background: "linear-gradient(135deg, #0098EA, #007bc4)",
                       }}
                     >
-                      Swap to best
+                      {row.stakingInfo ? "Stake TON" : "Swap to best"}
                     </button>
                   </td>
                 </tr>
@@ -210,19 +220,22 @@ export function YieldTable() {
               </div>
 
               <button
-                onClick={() => setSelectedRow(row)}
+                onClick={() => openRow(row)}
                 className="w-full py-2.5 rounded-[10px] text-sm font-medium text-white transition-all"
                 style={{ background: "linear-gradient(135deg, #0098EA, #007bc4)" }}
               >
-                Swap to best yield
+                {row.stakingInfo ? "Stake TON" : "Swap to best yield"}
               </button>
             </div>
           ))}
         </div>
       </div>
 
-      {selectedRow && (
-        <SwapModal row={selectedRow} onClose={() => setSelectedRow(null)} />
+      {swapRow && (
+        <SwapModal row={swapRow} onClose={() => setSwapRow(null)} />
+      )}
+      {stakingRow && (
+        <StakingModal row={stakingRow} onClose={() => setStakingRow(null)} />
       )}
     </>
   );
