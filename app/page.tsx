@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen">
-      <Header />
+      <Header onOpenMira={() => setMiraOpen(true)} />
 
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-6">
         {/* Hero */}
@@ -38,7 +38,9 @@ export default function Home() {
         <StatsBar />
 
         {/* Yield Table */}
-        <YieldTable />
+        <div id="yield-table">
+          <YieldTable />
+        </div>
 
         {/* Footer note */}
         <p className="text-center text-text-secondary text-sm pb-4">

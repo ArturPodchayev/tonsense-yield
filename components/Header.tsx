@@ -2,7 +2,15 @@
 
 import { TonConnectButton } from "@tonconnect/ui-react";
 
-export function Header() {
+interface HeaderProps {
+  onOpenMira?: () => void;
+}
+
+export function Header({ onOpenMira }: HeaderProps) {
+  function scrollToYieldTable() {
+    document.getElementById("yield-table")?.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <header className="relative flex items-center justify-between px-6 py-4 border-b border-white/5" style={{ zIndex: 10 }}>
       <div className="flex items-center gap-3">
@@ -32,10 +40,16 @@ export function Header() {
       <div className="flex items-center gap-4">
         <nav className="hidden md:flex items-center gap-6 text-sm text-text-secondary">
           <span className="text-accent font-medium cursor-pointer">Yields</span>
-          <span className="hover:text-text-primary cursor-pointer transition-colors">
+          <span
+            onClick={scrollToYieldTable}
+            className="hover:text-text-primary cursor-pointer transition-colors"
+          >
             Swap
           </span>
-          <span className="hover:text-text-primary cursor-pointer transition-colors">
+          <span
+            onClick={onOpenMira}
+            className="hover:text-text-primary cursor-pointer transition-colors"
+          >
             AI Chat
           </span>
         </nav>
