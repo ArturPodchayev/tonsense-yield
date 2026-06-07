@@ -344,7 +344,7 @@ export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(8,8,16,0.88)", backdropFilter: "blur(8px)" }}
+      style={{ background: "rgba(8,8,16,0.95)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
