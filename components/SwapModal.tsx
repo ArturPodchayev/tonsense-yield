@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import { useRfq, useOmniston } from "@ston-fi/omniston-sdk-react";
-import type { Quote, QuoteEvent, AssetId, ChainAddress } from "@ston-fi/omniston-sdk";
+import type { Quote, AssetId, ChainAddress } from "@ston-fi/omniston-sdk";
 import type { ApyRow, SwapConfig } from "@/lib/apyData";
 
 interface SwapModalProps {
@@ -11,15 +11,20 @@ interface SwapModalProps {
   onClose: () => void;
 }
 
-// Build Omniston AssetId from our SwapConfig asset
+// ─── Protobuf helpers ────────────────────────────────────────────────────────
+
 function toAssetId(asset: SwapConfig["input"]): AssetId {
   if (asset.chain === "ton") {
     if (!asset.contractAddress) {
       return { chain: { $case: "ton", value: { kind: { $case: "native", value: {} } } } };
     }
-    return { chain: { $case: "ton", value: { kind: { $case: "jetton", value: asset.contractAddress } } } };
+    return {
+      chain: {
+        $case: "ton",
+        value: { kind: { $case: "jetton", value: asset.contractAddress } },
+      },
+    };
   }
-  // EVM chains
   const evmCase = asset.chain as "ethereum" | "base" | "bnb";
   return {
     chain: {
@@ -29,12 +34,14 @@ function toAssetId(asset: SwapConfig["input"]): AssetId {
   };
 }
 
-// Build ChainAddress from our asset + address string
-function toChainAddress(chain: SwapConfig["input"]["chain"], address: string): ChainAddress {
+function toChainAddress(
+  chain: SwapConfig["input"]["chain"],
+  address: string
+): ChainAddress {
   return { chain: { $case: chain, value: address } };
 }
 
-// Convert hex BoC → base64 (TON Connect payload format)
+// hex BoC → base64 (TON Connect expects base64)
 function hexToBase64(hex: string): string {
   let binary = "";
   for (let i = 0; i < hex.length; i += 2) {
@@ -43,8 +50,10 @@ function hexToBase64(hex: string): string {
   return btoa(binary);
 }
 
+// ─── Unit conversion ─────────────────────────────────────────────────────────
+
 function toUnits(amount: string, decimals: number): string {
-  const [whole, frac = ""] = amount.split(".");
+  const [whole, frac = ""] = (amount || "0").split(".");
   const fracPadded = frac.padEnd(decimals, "0").slice(0, decimals);
   return (
     BigInt(whole || "0") * BigInt(10 ** decimals) +
@@ -52,13 +61,68 @@ function toUnits(amount: string, decimals: number): string {
   ).toString();
 }
 
-function formatUnits(raw: string, decimals: number): string {
-  const n = BigInt(raw);
-  const factor = BigInt(10 ** decimals);
-  const whole = n / factor;
-  const frac = (n % factor).toString().padStart(decimals, "0").replace(/0+$/, "");
-  return frac ? `${whole}.${frac}` : `${whole}`;
+// Safe: returns "" if raw is empty/undefined/unparseable
+function formatUnits(raw: string | undefined, decimals: number): string {
+  if (!raw || raw === "0") return "0";
+  try {
+    const n = BigInt(raw);
+    const factor = BigInt(10 ** decimals);
+    const whole = n / factor;
+    const frac = (n % factor).toString().padStart(decimals, "0").replace(/0+$/, "");
+    return frac ? `${whole}.${frac}` : `${whole}`;
+  } catch {
+    return "?";
+  }
 }
+
+// ─── Quote field accessors (all optional in protobuf) ─────────────────────────
+
+function safeQuoteId(q: Quote): string {
+  return q?.quoteId ?? "";
+}
+function safeOutputUnits(q: Quote): string {
+  return q?.outputUnits ?? "0";
+}
+function safeInputUnits(q: Quote): string {
+  return q?.inputUnits ?? "0";
+}
+function safeResolverName(q: Quote): string {
+  if (q?.resolverName) return q.resolverName;
+  if (q?.resolverId) return q.resolverId.slice(0, 14) + "…";
+  return "unknown";
+}
+function safeGasBudget(q: Quote): string | undefined {
+  return q?.gasBudget && q.gasBudget !== "0" ? q.gasBudget : undefined;
+}
+
+// ─── Type guard for QuoteEvent ────────────────────────────────────────────────
+
+interface SafeQuoteEvent {
+  eventCase: string;
+  quote?: Quote;
+}
+
+// The SDK observable can emit QuoteEvent | UnsubscribeEvent | partial objects.
+// Guard everything with optional chaining before touching .$case.
+function extractQuoteEvent(raw: unknown): SafeQuoteEvent | null {
+  if (!raw || typeof raw !== "object") return null;
+  const data = raw as Record<string, unknown>;
+
+  // Handles: { event: { $case: "quoteUpdated", value: Quote } }
+  const eventField = data["event"] as Record<string, unknown> | undefined;
+  if (!eventField || typeof eventField !== "object") return null;
+
+  const eventCase = eventField["$case"];
+  if (typeof eventCase !== "string") return null;
+
+  if (eventCase === "quoteUpdated") {
+    const quote = eventField["value"] as Quote | undefined;
+    return { eventCase, quote };
+  }
+  return { eventCase };
+}
+
+// ─── Component ───────────────────────────────────────────────────────────────
 
 type Step = "idle" | "quoting" | "quoted" | "building" | "sending" | "done" | "error";
 
@@ -85,38 +149,69 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
   const isValidDst = !swap.crosschain || dstAddress.startsWith("0x");
 
   const inputUnits = (() => {
-    try { return toUnits(amount || "0", swap.input.decimals); }
-    catch { return "0"; }
+    try {
+      return toUnits(amount || "0", swap.input.decimals);
+    } catch {
+      return "0";
+    }
   })();
 
-  // Build the RFQ request with correct settlement method per swap type
   const rfqRequest = {
     inputAsset: toAssetId(swap.input),
     outputAsset: toAssetId(swap.output),
     amount: { $case: "inputUnits" as const, value: inputUnits },
     settlementParams: swap.crosschain
       ? [{ params: { $case: "order" as const, value: {} } }]
-      : [{ params: { $case: "swap" as const, value: { maxPriceSlippagePips: 10_000, flexibleIntegratorFee: true } } }],
+      : [
+          {
+            params: {
+              $case: "swap" as const,
+              value: { maxPriceSlippagePips: 10_000, flexibleIntegratorFee: true },
+            },
+          },
+        ],
   };
 
   const rfq = useRfq(rfqRequest, { enabled: step === "quoting" });
 
-  // Watch RFQ stream for the first good quote
+  // Watch the RFQ observable stream — guard every field access
   useEffect(() => {
     if (step !== "quoting") return;
-    const event = rfq.data as QuoteEvent | undefined;
-    if (!event) return;
 
-    if (event.event.$case === "quoteUpdated") {
-      setQuote(event.event.value);
-      setStep("quoted");
-    } else if (event.event.$case === "noQuote") {
-      setErrorMsg(
-        "No resolver responded to this quote. The pair may have low liquidity right now — try a smaller amount."
-      );
+    // rfq.error: WebSocket or parsing failure
+    if (rfq.isError) {
+      setErrorMsg("Failed to connect to Omniston. Check your network and try again.");
+      setStep("error");
+      return;
+    }
+
+    if (!rfq.data) return;
+
+    try {
+      const parsed = extractQuoteEvent(rfq.data);
+      if (!parsed) return;
+
+      if (parsed.eventCase === "quoteUpdated") {
+        if (!parsed.quote) {
+          setErrorMsg("Received an empty quote from resolver.");
+          setStep("error");
+          return;
+        }
+        setQuote(parsed.quote);
+        setStep("quoted");
+      } else if (parsed.eventCase === "noQuote") {
+        setErrorMsg(
+          "No resolver responded to this pair. Try a smaller amount or check back later."
+        );
+        setStep("error");
+      }
+      // "ack" and "keepAlive" are informational — stay in quoting state
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setErrorMsg(`Quote parsing error: ${msg}`);
       setStep("error");
     }
-  }, [rfq.data, step]);
+  }, [rfq.data, rfq.isError, step]);
 
   function reset() {
     setStep("idle");
@@ -126,7 +221,10 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
   }
 
   async function handleGetQuote() {
-    if (!isConnected) { tonConnectUI.openModal(); return; }
+    if (!isConnected) {
+      tonConnectUI.openModal();
+      return;
+    }
     if (!isValidDst) return;
     reset();
     setStep("quoting");
@@ -134,25 +232,29 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
 
   async function handleConfirmSwap() {
     if (!quote || !userTonAddress) return;
+    const qid = safeQuoteId(quote);
+    if (!qid) {
+      setErrorMsg("Quote ID is missing — please refresh the quote.");
+      setStep("error");
+      return;
+    }
+
     setStep("building");
-
     try {
-      let tonTx;
+      const tonTx = swap.crosschain
+        ? await omniston.tonBuildEscrowTransfer({
+            quoteId: qid,
+            ownerSrcAddress: toChainAddress("ton", userTonAddress),
+            traderDstAddress: toChainAddress(swap.output.chain, dstAddress),
+          })
+        : await omniston.tonBuildSwap({
+            quoteId: qid,
+            transferSrcAddress: toChainAddress("ton", userTonAddress),
+            useRecommendedSlippage: true,
+          });
 
-      if (swap.crosschain) {
-        // ORDER settlement: create escrow position on TON, resolver fills on dst chain
-        tonTx = await omniston.tonBuildEscrowTransfer({
-          quoteId: quote.quoteId,
-          ownerSrcAddress: toChainAddress("ton", userTonAddress),
-          traderDstAddress: toChainAddress(swap.output.chain, dstAddress),
-        });
-      } else {
-        // SWAP settlement: intrachain atomic swap via Omniston router
-        tonTx = await omniston.tonBuildSwap({
-          quoteId: quote.quoteId,
-          transferSrcAddress: toChainAddress("ton", userTonAddress),
-          useRecommendedSlippage: true,
-        });
+      if (!tonTx?.messages?.length) {
+        throw new Error("Omniston returned an empty transaction — no messages to send.");
       }
 
       setStep("sending");
@@ -171,7 +273,7 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         messages,
       });
 
-      setTxBoc(result.boc);
+      setTxBoc(result.boc ?? "");
       setStep("done");
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
@@ -204,7 +306,6 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
           ×
         </button>
 
-        {/* Header */}
         <h2 className="text-lg font-semibold text-text-primary mb-1">
           {swap.crosschain ? "Crosschain Swap" : "Swap via Omniston"}
         </h2>
@@ -218,20 +319,29 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         <label className="text-xs text-text-secondary mb-1.5 block">You send</label>
         <div
           className="flex items-center gap-3 rounded-[14px] px-4 py-3 mb-3"
-          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
         >
           <span className="text-xl">{row.icon}</span>
           <div className="flex-1">
-            <div className="text-text-secondary text-xs">{swap.input.chain.toUpperCase()}</div>
+            <div className="text-text-secondary text-xs">
+              {swap.input.chain.toUpperCase()}
+            </div>
             <div className="text-text-primary font-medium">{swap.input.label}</div>
           </div>
           <input
             type="number"
             value={amount}
-            onChange={(e) => { setAmount(e.target.value); reset(); }}
+            onChange={(e) => {
+              setAmount(e.target.value);
+              reset();
+            }}
             disabled={step !== "idle" && step !== "error"}
             className="bg-transparent text-right text-text-primary font-medium w-24 outline-none disabled:opacity-60"
-            min="0" step="1"
+            min="0"
+            step="1"
           />
         </div>
 
@@ -240,7 +350,11 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
           {swap.crosschain && (
             <span
               className="text-xs px-2 py-0.5 rounded-full"
-              style={{ background: "rgba(0,152,234,0.12)", color: "#0098EA", border: "1px solid rgba(0,152,234,0.25)" }}
+              style={{
+                background: "rgba(0,152,234,0.12)",
+                color: "#0098EA",
+                border: "1px solid rgba(0,152,234,0.25)",
+              }}
             >
               crosschain
             </span>
@@ -251,26 +365,33 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         <label className="text-xs text-text-secondary mb-1.5 block">You receive</label>
         <div
           className="flex items-center gap-3 rounded-[14px] px-4 py-3 mb-4"
-          style={{ background: "rgba(0,201,141,0.06)", border: "1px solid rgba(0,201,141,0.2)" }}
+          style={{
+            background: "rgba(0,201,141,0.06)",
+            border: "1px solid rgba(0,201,141,0.2)",
+          }}
         >
           <span className="text-xl">💵</span>
           <div className="flex-1">
-            <div className="text-text-secondary text-xs">{swap.output.chain.toUpperCase()}</div>
+            <div className="text-text-secondary text-xs">
+              {swap.output.chain.toUpperCase()}
+            </div>
             <div className="text-text-primary font-medium">{swap.output.label}</div>
           </div>
           {quote ? (
             <div className="text-right">
               <div style={{ color: "#00C98D" }} className="font-semibold">
-                ~{formatUnits(quote.outputUnits, outDec)}
+                ~{formatUnits(safeOutputUnits(quote), outDec)}
               </div>
               <div className="text-text-secondary text-xs">{row.symbol}</div>
             </div>
           ) : (
-            <div className="text-right text-text-secondary text-xs">awaiting quote</div>
+            <div className="text-right text-text-secondary text-xs">
+              awaiting quote
+            </div>
           )}
         </div>
 
-        {/* EVM destination address (crosschain only) */}
+        {/* EVM destination address — crosschain only */}
         {swap.crosschain && (
           <div className="mb-4">
             <label className="text-xs text-text-secondary mb-1.5 block">
@@ -281,11 +402,15 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
               value={dstAddress}
               onChange={(e) => setDstAddress(e.target.value.trim())}
               disabled={step !== "idle" && step !== "error"}
-              placeholder={EVM_PLACEHOLDER[swap.output.chain]}
+              placeholder={EVM_PLACEHOLDER[swap.output.chain] ?? "0x…"}
               className="w-full rounded-[12px] px-4 py-2.5 text-sm text-text-primary outline-none disabled:opacity-60 font-mono"
               style={{
                 background: "rgba(255,255,255,0.04)",
-                border: `1px solid ${dstAddress && !dstAddress.startsWith("0x") ? "rgba(255,80,80,0.4)" : "rgba(255,255,255,0.1)"}`,
+                border: `1px solid ${
+                  dstAddress && !dstAddress.startsWith("0x")
+                    ? "rgba(255,80,80,0.4)"
+                    : "rgba(255,255,255,0.1)"
+                }`,
               }}
             />
             {dstAddress && !dstAddress.startsWith("0x") && (
@@ -296,28 +421,37 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
           </div>
         )}
 
-        {/* Quote breakdown */}
+        {/* Quote details */}
         {quote && step === "quoted" && (
           <div
             className="rounded-[14px] px-4 py-3 mb-4 space-y-1.5 text-sm"
-            style={{ background: "rgba(0,152,234,0.06)", border: "1px solid rgba(0,152,234,0.15)" }}
+            style={{
+              background: "rgba(0,152,234,0.06)",
+              border: "1px solid rgba(0,152,234,0.15)",
+            }}
           >
             <div className="flex justify-between">
               <span className="text-text-secondary">Input</span>
-              <span className="text-text-primary">{formatUnits(quote.inputUnits, inDec)} {row.symbol}</span>
+              <span className="text-text-primary">
+                {formatUnits(safeInputUnits(quote), inDec)} {row.symbol}
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-secondary">Output</span>
-              <span className="text-text-primary">{formatUnits(quote.outputUnits, outDec)} {row.symbol}</span>
+              <span className="text-text-primary">
+                {formatUnits(safeOutputUnits(quote), outDec)} {row.symbol}
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-secondary">Resolver</span>
-              <span className="text-accent">{quote.resolverName || quote.resolverId.slice(0, 14) + "…"}</span>
+              <span className="text-accent">{safeResolverName(quote)}</span>
             </div>
-            {quote.gasBudget && (
+            {safeGasBudget(quote) && (
               <div className="flex justify-between">
                 <span className="text-text-secondary">Gas (TON)</span>
-                <span className="text-text-primary">{formatUnits(quote.gasBudget, 9)} TON</span>
+                <span className="text-text-primary">
+                  {formatUnits(safeGasBudget(quote), 9)} TON
+                </span>
               </div>
             )}
             <div className="flex justify-between">
@@ -348,7 +482,10 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         {step === "quoting" && (
           <div
             className="w-full py-3.5 rounded-[14px] text-center text-text-secondary font-medium"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+            style={{
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
           >
             <span className="animate-pulse">Requesting quote from resolvers…</span>
           </div>
@@ -359,7 +496,10 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
             <button
               onClick={reset}
               className="flex-1 py-3.5 rounded-[14px] font-medium text-text-secondary hover:text-text-primary transition-all"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
             >
               Refresh
             </button>
@@ -376,10 +516,16 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         {(step === "building" || step === "sending") && (
           <div
             className="w-full py-3.5 rounded-[14px] text-center font-medium"
-            style={{ background: "rgba(0,201,141,0.08)", border: "1px solid rgba(0,201,141,0.2)", color: "#00C98D" }}
+            style={{
+              background: "rgba(0,201,141,0.08)",
+              border: "1px solid rgba(0,201,141,0.2)",
+              color: "#00C98D",
+            }}
           >
             <span className="animate-pulse">
-              {step === "building" ? "Building escrow transaction…" : "Waiting for wallet approval…"}
+              {step === "building"
+                ? "Building transaction…"
+                : "Waiting for wallet approval…"}
             </span>
           </div>
         )}
@@ -389,15 +535,17 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
             <div className="text-4xl mb-3">✅</div>
             <p className="text-text-primary font-semibold mb-1">Transaction submitted!</p>
             <p className="text-text-secondary text-sm mb-3">
-              Resolver will now fill your order on{" "}
+              Resolver will fill your order on{" "}
               <span className="text-text-primary">{swap.output.chain}</span>
             </p>
             {txBoc && (
               <p className="text-text-secondary text-xs font-mono break-all mb-2">
-                BoC: {txBoc.slice(0, 32)}…
+                BoC: {txBoc.slice(0, 40)}…
               </p>
             )}
-            <p className="text-text-secondary text-xs">Check Tonviewer for the on-chain escrow tx</p>
+            <p className="text-text-secondary text-xs">
+              Check Tonviewer for the on-chain tx
+            </p>
           </div>
         )}
 
@@ -405,14 +553,21 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
           <div className="space-y-3">
             <div
               className="rounded-[14px] px-4 py-3 text-sm"
-              style={{ background: "rgba(255,80,80,0.08)", border: "1px solid rgba(255,80,80,0.2)", color: "#ff6b6b" }}
+              style={{
+                background: "rgba(255,80,80,0.08)",
+                border: "1px solid rgba(255,80,80,0.2)",
+                color: "#ff6b6b",
+              }}
             >
               {errorMsg || "An unexpected error occurred."}
             </div>
             <button
               onClick={reset}
               className="w-full py-3 rounded-[14px] font-medium text-text-secondary hover:text-text-primary transition-all"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
             >
               Try again
             </button>
@@ -420,8 +575,7 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         )}
 
         <p className="text-center text-text-secondary text-xs mt-4">
-          Powered by{" "}
-          <span className="text-accent">Omniston</span> ·{" "}
+          Powered by <span className="text-accent">Omniston</span> ·{" "}
           {swap.crosschain ? "HTLC ORDER settlement" : "atomic SWAP"}
         </p>
       </div>
