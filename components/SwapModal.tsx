@@ -105,21 +105,18 @@ interface SafeQuoteEvent {
   quote?: Quote;
 }
 
-// The SDK observable can emit QuoteEvent | UnsubscribeEvent | partial objects.
-// Guard everything with optional chaining before touching .$case.
+// requestForQuote Observable emits QuoteEvent["event"] directly:
+//   { $case: "ack" | "quoteUpdated" | "noQuote" | "keepAlive", value: ... }
+// There is NO outer ".event" wrapper — $case is at the top level of rfq.data.
 function extractQuoteEvent(raw: unknown): SafeQuoteEvent | null {
   if (!raw || typeof raw !== "object") return null;
   const data = raw as Record<string, unknown>;
 
-  // Handles: { event: { $case: "quoteUpdated", value: Quote } }
-  const eventField = data["event"] as Record<string, unknown> | undefined;
-  if (!eventField || typeof eventField !== "object") return null;
-
-  const eventCase = eventField["$case"];
+  const eventCase = data["$case"];
   if (typeof eventCase !== "string") return null;
 
   if (eventCase === "quoteUpdated") {
-    const quote = eventField["value"] as Quote | undefined;
+    const quote = data["value"] as Quote | undefined;
     return { eventCase, quote };
   }
   return { eventCase };
@@ -283,14 +280,15 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
       const messages = tonTx.messages.map((msg) => ({
         address: msg.targetAddress,
         amount: msg.sendAmount,
-        ...(msg.payload ? { payload: hexToBase64(msg.payload) } : {}),
-        ...(msg.jettonWalletStateInit
-          ? { stateInit: hexToBase64(msg.jettonWalletStateInit) }
-          : {}),
+        payload: hexToBase64(msg.payload),
+        stateInit: msg.jettonWalletStateInit
+          ? hexToBase64(msg.jettonWalletStateInit)
+          : undefined,
       }));
 
       const result = await tonConnectUI.sendTransaction({
         validUntil: Math.floor(Date.now() / 1000) + 300,
+        from: tonConnectUI.account?.address,
         messages,
       });
 
