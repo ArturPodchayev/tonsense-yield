@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { APY_DATA, CHAIN_LABELS, type ApyRow, type ChainKey, type SwapConfig, type StakingInfo } from "@/lib/apyData";
+import { APY_DATA, CHAIN_LABELS, type ApyRow, type ChainKey, type SwapConfig, type StakingInfo, type SecurityInfo } from "@/lib/apyData";
 import { SwapModal } from "./SwapModal";
 import { StakingModal } from "./StakingModal";
+import { SecurityModal } from "./SecurityModal";
 
 const CHAINS: ChainKey[] = ["tonApy", "ethApy", "baseApy", "bnbApy"];
 
@@ -55,11 +56,13 @@ function BestBadge({ chain, apy }: { chain: string; apy: number }) {
 
 type SwapRow = ApyRow & { swap: SwapConfig };
 type StakingRow = ApyRow & { stakingInfo: StakingInfo };
+type SecurityRow = ApyRow & { securityInfo: SecurityInfo };
 
 export function YieldTable() {
   const [swapRow, setSwapRow] = useState<SwapRow | null>(null);
   const [swapInitialAmount, setSwapInitialAmount] = useState("10");
   const [stakingRow, setStakingRow] = useState<StakingRow | null>(null);
+  const [securityRow, setSecurityRow] = useState<SecurityRow | null>(null);
   const [amounts, setAmounts] = useState<Record<string, string>>({});
 
   function setAmount(symbol: string, value: string) {
@@ -144,8 +147,20 @@ export function YieldTable() {
                         {row.icon}
                       </div>
                       <div>
-                        <div className="text-text-primary font-semibold">
-                          {row.symbol}
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-text-primary font-semibold">
+                            {row.symbol}
+                          </span>
+                          {row.securityInfo && (
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setSecurityRow(row as SecurityRow); }}
+                              title="View security report"
+                              className="transition-opacity hover:opacity-100 opacity-60"
+                              style={{ fontSize: "13px", lineHeight: 1 }}
+                            >
+                              🛡️
+                            </button>
+                          )}
                         </div>
                         <div className="text-text-secondary text-xs">
                           {row.asset}
@@ -235,7 +250,19 @@ export function YieldTable() {
                     {row.icon}
                   </div>
                   <div>
-                    <div className="text-text-primary font-semibold">{row.symbol}</div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-text-primary font-semibold">{row.symbol}</span>
+                      {row.securityInfo && (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setSecurityRow(row as SecurityRow); }}
+                          title="View security report"
+                          className="transition-opacity hover:opacity-100 opacity-60"
+                          style={{ fontSize: "13px", lineHeight: 1 }}
+                        >
+                          🛡️
+                        </button>
+                      )}
+                    </div>
                     <div className="text-text-secondary text-xs">{row.asset}</div>
                   </div>
                 </div>
@@ -306,6 +333,9 @@ export function YieldTable() {
       )}
       {stakingRow && (
         <StakingModal row={stakingRow} onClose={() => setStakingRow(null)} />
+      )}
+      {securityRow && (
+        <SecurityModal row={securityRow} onClose={() => setSecurityRow(null)} />
       )}
     </>
   );
