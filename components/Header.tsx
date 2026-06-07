@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { TonConnectButton } from "@tonconnect/ui-react";
 
 interface HeaderProps {
@@ -7,13 +9,28 @@ interface HeaderProps {
 }
 
 export function Header({ onOpenMira }: HeaderProps) {
-  function scrollToYieldTable() {
-    document.getElementById("yield-table")?.scrollIntoView({ behavior: "smooth" });
+  const pathname = usePathname();
+  const router = useRouter();
+
+  function handleSwap() {
+    if (pathname === "/") {
+      document.getElementById("yield-table")?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push("/");
+    }
   }
 
+  const linkClass = (active: boolean) =>
+    active
+      ? "text-accent font-medium cursor-pointer"
+      : "text-text-secondary hover:text-text-primary cursor-pointer transition-colors";
+
   return (
-    <header className="relative flex items-center justify-between px-6 py-4 border-b border-white/5" style={{ zIndex: 10 }}>
-      <div className="flex items-center gap-3">
+    <header
+      className="relative flex items-center justify-between px-6 py-4 border-b border-white/5"
+      style={{ zIndex: 10 }}
+    >
+      <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
         <div
           className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
           style={{ background: "linear-gradient(135deg, #0098EA, #00C98D)" }}
@@ -35,21 +52,20 @@ export function Header({ onOpenMira }: HeaderProps) {
             Yield
           </span>
         </div>
-      </div>
+      </Link>
 
       <div className="flex items-center gap-4">
-        <nav className="hidden md:flex items-center gap-6 text-sm text-text-secondary">
-          <span className="text-accent font-medium cursor-pointer">Yields</span>
-          <span
-            onClick={scrollToYieldTable}
-            className="hover:text-text-primary cursor-pointer transition-colors"
-          >
+        <nav className="hidden md:flex items-center gap-6 text-sm">
+          <Link href="/" className={linkClass(pathname === "/")}>
+            Yields
+          </Link>
+          <span onClick={handleSwap} className={linkClass(false)}>
             Swap
           </span>
-          <span
-            onClick={onOpenMira}
-            className="hover:text-text-primary cursor-pointer transition-colors"
-          >
+          <Link href="/about" className={linkClass(pathname === "/about")}>
+            About
+          </Link>
+          <span onClick={onOpenMira} className={linkClass(false)}>
             AI Chat
           </span>
         </nav>
