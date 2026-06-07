@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="public/logo.png" alt="TonSense Yield Logo" width="96" height="96" style="border-radius: 50%; margin-bottom: 12px;" />
+
 # 💎 TonSense Yield
 
 ### Find where your crypto earns the most. Swap in one click.
