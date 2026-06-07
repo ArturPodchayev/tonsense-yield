@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTonConnectUI, useTonAddress } from "@tonconnect/ui-react";
 import { useRfq, useOmniston } from "@ston-fi/omniston-sdk-react";
+import { Cell } from "@ton/ton";
 import type { Quote, AssetId, ChainAddress } from "@ston-fi/omniston-sdk";
 import type { ApyRow, SwapConfig } from "@/lib/apyData";
 
@@ -52,6 +53,16 @@ function hexToBase64(hex: string): string {
     binary += String.fromCharCode(parseInt(hex.slice(i, i + 2), 16));
   }
   return btoa(binary);
+}
+
+// base64 BoC → SHA-256 cell hash (the tx ID Tonviewer uses)
+function bocToTxHash(boc: string): string {
+  try {
+    const cells = Cell.fromBoc(Buffer.from(boc, "base64"));
+    return cells[0]?.hash().toString("hex") ?? "";
+  } catch {
+    return "";
+  }
 }
 
 // ─── Unit conversion ─────────────────────────────────────────────────────────
@@ -141,6 +152,7 @@ export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [txBoc, setTxBoc] = useState("");
+  const [txHash, setTxHash] = useState("");
   const [balance, setBalance] = useState<string | null>(null);
 
   const [tonConnectUI] = useTonConnectUI();
@@ -262,6 +274,7 @@ export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
     setQuote(null);
     setErrorMsg("");
     setTxBoc("");
+    setTxHash("");
   }
 
   async function handleGetQuote() {
@@ -321,7 +334,9 @@ export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
         messages,
       });
 
-      setTxBoc(result.boc ?? "");
+      const boc = result.boc ?? "";
+      setTxBoc(boc);
+      setTxHash(bocToTxHash(boc));
       setStep("done");
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
@@ -602,21 +617,33 @@ export function SwapModal({ row, onClose, initialAmount }: SwapModalProps) {
         )}
 
         {step === "done" && (
-          <div className="text-center py-3">
+          <div className="text-center py-4">
             <div className="text-4xl mb-3">✅</div>
             <p className="text-text-primary font-semibold mb-1">Transaction submitted!</p>
-            <p className="text-text-secondary text-sm mb-3">
+            <p className="text-text-secondary text-sm mb-5">
               Resolver will fill your order on{" "}
               <span className="text-text-primary">{swap.output.chain}</span>
             </p>
-            {txBoc && (
-              <p className="text-text-secondary text-xs font-mono break-all mb-2">
-                BoC: {txBoc.slice(0, 40)}…
+            {txHash ? (
+              <a
+                href={`https://tonviewer.com/transaction/${txHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[12px] text-sm font-semibold transition-all hover:opacity-85 active:scale-[0.97]"
+                style={{
+                  background: "rgba(0,152,234,0.12)",
+                  border: "1px solid rgba(0,152,234,0.35)",
+                  color: "#0098EA",
+                  boxShadow: "0 0 16px rgba(0,152,234,0.15)",
+                }}
+              >
+                View on Tonviewer →
+              </a>
+            ) : (
+              <p className="text-text-secondary text-xs">
+                Check Tonviewer for the on-chain tx
               </p>
             )}
-            <p className="text-text-secondary text-xs">
-              Check Tonviewer for the on-chain tx
-            </p>
           </div>
         )}
 
