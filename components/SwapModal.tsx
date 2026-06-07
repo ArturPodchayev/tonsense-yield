@@ -268,6 +268,9 @@ export function SwapModal({ row, onClose }: SwapModalProps) {
         : await omniston.tonBuildSwap({
             quoteId: qid,
             transferSrcAddress: toChainAddress("ton", userTonAddress),
+            traderDstAddress: toChainAddress("ton", userTonAddress),
+            refundSrcAddress: toChainAddress("ton", userTonAddress),
+            gasExcessAddress: toChainAddress("ton", userTonAddress),
             useRecommendedSlippage: true,
           });
 
